@@ -1,6 +1,6 @@
 package com.example.prm_ecommerce.API.Interface;
 
-import com.example.prm_ecommerce.Model.ProductModel;
+import com.example.prm_ecommerce.domain.ProductDomain;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -14,17 +14,17 @@ public interface IProductService {
     String PRODUCT = "products";
 
     @GET(PRODUCT)
-    Call<ProductModel[]> getAllProducts();
+    Call<ProductDomain[]> getAllProducts();
 
     @GET(PRODUCT + "/${id}/")
-    Call<ProductModel> getProductById(@Path("id")Object id);
+    Call<ProductDomain> getProductById(@Path("id")Object id);
 
     @POST(PRODUCT)
-    Call<ProductModel> createProduct(@Body ProductModel product);
+    Call<ProductDomain> createProduct(@Body ProductDomain product);
 
     @PUT(PRODUCT + "/{id}")
-    Call<ProductModel> updateProduct(@Path("id")Object id, @Body ProductModel product);
+    Call<ProductDomain> updateProduct(@Path("id")Object id, @Body ProductDomain product);
 
     @DELETE(PRODUCT + "/{id}")
-    Call<ProductModel> deleteProduct(@Path("id") Object id);
+    Call<ProductDomain> deleteProduct(@Path("id") Object id);
 }

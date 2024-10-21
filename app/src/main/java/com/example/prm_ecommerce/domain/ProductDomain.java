@@ -1,21 +1,24 @@
-package com.example.prm_ecommerce.Model;
-public class ProductModel {
+package com.example.prm_ecommerce.domain;
+
+import java.util.List;
+
+public class ProductDomain {
     private String _id;
+    private String name;
     private float price;
-    private String brand;
+    private BrandDomain brand;
     private String category;
-    private String descriptiondescription;
     private String description;
     private int quantitySold;
     private String origin;
     private String status;
     private boolean isDelete;
+    private List<ImageDomain> images;
 
-    public ProductModel(String brand, float price, String category, String descriptiondescription, String description, int quantitySold, String origin, String status, boolean isDelete) {
-        this.brand = brand;
+    public ProductDomain(String name, float price, String category, String description, int quantitySold, String origin, String status, boolean isDelete) {
+        this.name = name;
         this.price = price;
         this.category = category;
-        this.descriptiondescription = descriptiondescription;
         this.description = description;
         this.quantitySold = quantitySold;
         this.origin = origin;
@@ -31,6 +34,14 @@ public class ProductModel {
         this._id = _id;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public float getPrice() {
         return price;
     }
@@ -39,11 +50,11 @@ public class ProductModel {
         this.price = price;
     }
 
-    public String getBrand() {
+    public BrandDomain getBrand() {
         return brand;
     }
 
-    public void setBrand(String brand) {
+    public void setBrand(BrandDomain brand) {
         this.brand = brand;
     }
 
@@ -53,14 +64,6 @@ public class ProductModel {
 
     public void setCategory(String category) {
         this.category = category;
-    }
-
-    public String getDescriptiondescription() {
-        return descriptiondescription;
-    }
-
-    public void setDescriptiondescription(String descriptiondescription) {
-        this.descriptiondescription = descriptiondescription;
     }
 
     public String getDescription() {
@@ -101,5 +104,13 @@ public class ProductModel {
 
     public void setDelete(boolean delete) {
         isDelete = delete;
+    }
+
+    public List<ImageDomain> getImage() {
+        return images;
+    }
+
+    public void setImage(List<ImageDomain> image) {
+        this.images = image;
     }
 }

@@ -1,7 +1,9 @@
 package com.example.prm_ecommerce.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.widget.Toast;
 
@@ -18,6 +20,7 @@ import com.example.prm_ecommerce.API.Repository.ProductRepository;
 import com.example.prm_ecommerce.Adapter.PopularAdapter;
 import com.example.prm_ecommerce.R;
 import com.example.prm_ecommerce.databinding.ActivityMainBinding;
+import com.example.prm_ecommerce.domain.ItemCartDomain;
 import com.example.prm_ecommerce.domain.ProductDomain;
 
 import java.util.ArrayList;
@@ -38,6 +41,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         statusBarColor();
         initRecyclerView();
+
+        bottomNavigation();
+    }
+
+    private void bottomNavigation() {
+        binding.cartBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, CartActivity.class));
+            }
+        });
     }
 
     private void statusBarColor() {

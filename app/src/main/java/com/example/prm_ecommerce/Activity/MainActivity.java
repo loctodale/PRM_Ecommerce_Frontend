@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.prm_ecommerce.API.Interface.IProductService;
 import com.example.prm_ecommerce.API.Repository.ProductRepository;
 import com.example.prm_ecommerce.Adapter.PopularAdapter;
+import com.example.prm_ecommerce.CustomToast;
 import com.example.prm_ecommerce.R;
 import com.example.prm_ecommerce.databinding.ActivityMainBinding;
 import com.example.prm_ecommerce.domain.ItemCartDomain;
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     ProductDomain[] productDomains = response.body();
                     if (productDomains != null) {
-                        Toast.makeText(MainActivity.this, "Get success: " + productDomains.length + " items", Toast.LENGTH_SHORT).show();
+//                        CustomToast.makeText(MainActivity.this, "Response body is null", CustomToast.LENGTH_LONG, CustomToast.SUCCESS,true).show();
                         Log.d("Loi", "Received " + productDomains.length + " products");
                         // TODO: Process the received products
                         for(ProductDomain product : productDomains){

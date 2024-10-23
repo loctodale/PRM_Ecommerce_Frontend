@@ -16,7 +16,7 @@ public interface IProductService {
     @GET(PRODUCT)
     Call<ProductDomain[]> getAllProducts();
 
-    @GET(PRODUCT + "/${id}/")
+    @GET(PRODUCT + "/${id}")
     Call<ProductDomain> getProductById(@Path("id")Object id);
 
     @POST(PRODUCT)

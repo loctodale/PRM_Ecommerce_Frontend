@@ -3,6 +3,7 @@ package com.example.prm_ecommerce.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +16,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners;
+import com.example.prm_ecommerce.Activity.DetailActivity;
 import com.example.prm_ecommerce.databinding.ViewholderPupListBinding;
 import com.example.prm_ecommerce.domain.ProductDomain;
 import com.example.prm_ecommerce.R;
 
+import java.io.Serializable;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Currency;
@@ -50,16 +53,15 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.Viewhold
         binding.titleTxt.setText(item.get(position).getName());
         binding.feeTxt.setText(format.format(item.get(position).getPrice()));
         binding.scoreTxt.setText(item.get(position).getQuantitySold()+"");
-        Toast.makeText(context, item.get(position).getPrice() + "", Toast.LENGTH_SHORT).show();
         Glide.with(context)
                 .load(item.get(position).getImage().get(0).getImageUrl())
                 .centerCrop()
                 .into(binding.pic);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, DetailActivity.class);
+            intent.putExtra("object", item.get(position).get_id());
+            context.startActivity(intent);
         });
     }
 

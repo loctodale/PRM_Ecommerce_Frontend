@@ -19,6 +19,9 @@
             android:name=".Activity.CartActivity"
             android:exported="false" />
         <activity
+            android:name=".Activity.DetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.MainActivity"
             android:exported="true">
             <intent-filter>

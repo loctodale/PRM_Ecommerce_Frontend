@@ -1,5 +1,6 @@
 package com.example.prm_ecommerce.domain;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class ProductDomain {

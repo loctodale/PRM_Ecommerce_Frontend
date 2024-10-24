@@ -23,6 +23,8 @@ public interface ICartService {
 
     @POST(CART)
     Call<CartDomain> addProductToCart(@Body RequestAddProductToCartModel request);
+    @POST(CART+"/removeQuantity")
+    Call<CartDomain> removeQuantityInCart(@Body RequestAddProductToCartModel request);
 
     @PUT(CART + "/{id}")
     Call<CartDomain> updateCart(@Path("id")Object id, @Body ProductDomain product);

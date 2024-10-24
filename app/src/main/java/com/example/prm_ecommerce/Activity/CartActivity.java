@@ -37,14 +37,15 @@ public class CartActivity extends AppCompatActivity {
     ActivityCartBinding binding;
     private String userId;
     private ICartService CartService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         CartService = CartRepository.getCartService();
         managementCart = new ManagementCart(this);
+        userId = (String) getIntent().getSerializableExtra("userId");
         addSampleProducts();
 
-//
         binding = ActivityCartBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -53,39 +54,15 @@ public class CartActivity extends AppCompatActivity {
         initList();
 
     }
+
     private void addSampleProducts() {
-//        ItemCartDomain product1 = new ItemCartDomain(
-//                "1",
-//                new ArrayList<>(),  // Không có ảnh
-//                "Product 1",
-//                200.0  // Giá 200
-//        );
-//
-//        ItemCartDomain product2 = new ItemCartDomain(
-//                "2",
-//                new ArrayList<>(),  // Không có ảnh
-//                "Product 2",
-//                150.0  // Giá 150
-//        );
-//
-//        ItemCartDomain product3 = new ItemCartDomain(
-//                "3",
-//                new ArrayList<>(),  // Không có ảnh
-//                "Product 3",
-//                190.0  // Giá 150
-//        );
-//
-//        managementCart.insertItem(product1);  // Thêm sản phẩm 1
-//        managementCart.insertItem(product2);  // Thêm sản phẩm 2
-//        managementCart.insertItem(product3);  // Thêm sản phẩm 2
-        userId = (String) getIntent().getSerializableExtra("userId");
         Call<CartDomain> call = CartService.getCartByUserId(userId);
         call.enqueue(new Callback<CartDomain>() {
             @Override
             public void onResponse(Call<CartDomain> call, Response<CartDomain> response) {
-                 managementCart.clear();
+                managementCart.clear();
 
-                for(ItemInCartModel product : response.body().getProducts()) {
+                for (ItemInCartModel product : response.body().getProducts()) {
                     managementCart.insertItem(new ItemCartDomain(
                             product.getProduct().get_id(),
                             product.getProduct().getName(),
@@ -103,34 +80,58 @@ public class CartActivity extends AppCompatActivity {
     }
 
     private void initList() {
-         if (managementCart.getListCart().isEmpty()){
-            binding.tvEmpty.setVisibility(View.VISIBLE);
-            binding.scroll.setVisibility(View.GONE);
-         }else {
-             binding.tvEmpty.setVisibility(View.GONE);
-             binding.scroll.setVisibility(View.VISIBLE);
-         }
-         binding.cartView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-         binding.cartView.setAdapter(new CartAdapter(managementCart.getListCart(), new ChangeNumberItemsListener(){
+        Call<CartDomain> call = CartService.getCartByUserId(userId);
+        call.enqueue(new Callback<CartDomain>() {
             @Override
-            public void change() {
-                calculatorCart();
+            public void onResponse(Call<CartDomain> call, Response<CartDomain> response) {
+                managementCart.clear();
+                ArrayList<ItemCartDomain> items = new ArrayList<>();
+
+                for (ItemInCartModel product : response.body().getProducts()) {
+                    items.add(new ItemCartDomain(
+                            product.getProduct().get_id(),
+                            product.getProduct().getName(),
+                            product.getProduct().getImage(),
+                            product.getQuantity(),
+                            product.getProduct().getPrice()));
+                }
+                if (items.isEmpty()) {
+                    binding.tvEmpty.setVisibility(View.VISIBLE);
+                    binding.scroll.setVisibility(View.GONE);
+                } else {
+                    binding.tvEmpty.setVisibility(View.GONE);
+                    binding.scroll.setVisibility(View.VISIBLE);
+                }
+                binding.cartView.setLayoutManager(new LinearLayoutManager(CartActivity.this, LinearLayoutManager.VERTICAL, false));
+                binding.cartView.setAdapter(new CartAdapter(items, new ChangeNumberItemsListener() {
+                    @Override
+                    public void change() {
+                        calculatorCart();
+                    }
+                }));
+
             }
-        }));
+
+            @Override
+            public void onFailure(Call<CartDomain> call, Throwable throwable) {
+                Toast.makeText(CartActivity.this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    private void calculatorCart(){
+    private void calculatorCart() {
         double delivery = 10;
         NumberFormat format = NumberFormat.getCurrencyInstance();
         format.setMaximumFractionDigits(0);
         format.setCurrency(Currency.getInstance("VND"));
         double itemTotal = Math.round(managementCart.getTotalFee() * 100) / 100;
-        double total = Math.round(itemTotal+delivery);
+        double total = Math.round(itemTotal + delivery);
 
         binding.tvDelivery.setText(delivery + "VND");
         binding.tvSubtotal.setText(format.format(itemTotal));
         binding.tvTotal.setText(format.format(total));
     }
+
     private void setVariable() {
         binding.backBtn.setOnClickListener(v -> finish());
     }

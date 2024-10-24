@@ -15,10 +15,10 @@ import retrofit2.http.Path;
 public interface ICartService {
     String CART = "carts";
 
-    @GET(CART)
-    Call<CartDomain[]> getAllCarts();
+    @GET(CART + "/user/{userId}")
+    Call<CartDomain> getCartByUserId(@Path("userId")Object userId);
 
-    @GET(CART + "/${id}")
+    @GET(CART + "/{id}")
     Call<CartDomain> getCartById(@Path("id")Object id);
 
     @POST(CART)

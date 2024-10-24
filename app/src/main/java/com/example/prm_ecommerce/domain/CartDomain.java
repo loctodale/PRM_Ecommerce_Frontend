@@ -1,5 +1,7 @@
 package com.example.prm_ecommerce.domain;
 
+import com.example.prm_ecommerce.Model.ItemInCartModel;
+
 import java.util.Date;
 import java.util.List;
 
@@ -7,9 +9,9 @@ public class CartDomain {
     private String _id;
     private String user;
     private Date date;
-    private List<ProductDomain> products;
+    private List<ItemInCartModel> products;
 
-    public CartDomain(String user, Date date, List<ProductDomain> products) {
+    public CartDomain(String user, Date date, List<ItemInCartModel> products) {
         this.user = user;
         this.date = date;
         this.products = products;
@@ -39,11 +41,11 @@ public class CartDomain {
         this.date = date;
     }
 
-    public List<ProductDomain> getProducts() {
+    public List<ItemInCartModel> getProducts() {
         return products;
     }
 
-    public void setProducts(List<ProductDomain> products) {
+    public void setProducts(List<ItemInCartModel> products) {
         this.products = products;
     }
 }

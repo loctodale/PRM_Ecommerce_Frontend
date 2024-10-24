@@ -48,15 +48,15 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> {
         format.setCurrency(Currency.getInstance("VND"));
 
         holder.binding.tvName.setText(item.get(i).getName());
-        holder.binding.tvPriceEachItem.setText(item.get(i).getPrice()+"VND");
-        holder.binding.tvTotalEachItem.setText(Math.round(item.get(i).getNumberInCart()*item.get(i).getPrice())+"VND");
+        holder.binding.tvPriceEachItem.setText(format.format(item.get(i).getPrice()));
+        holder.binding.tvTotalEachItem.setText(format.format(item.get(i).getNumberInCart()*item.get(i).getPrice()));
         holder.binding.tvNumberItem.setText(String.valueOf(item.get(i).getNumberInCart()));
 
         Toast.makeText(context, item.get(i).getPrice() + "", Toast.LENGTH_SHORT).show();
-//        Glide.with(context)
-//                .load(item.get(i).getImages().get(0).getImageUrl())
-//                .centerCrop()
-//                .into(binding.pic);
+        Glide.with(context)
+                .load(item.get(i).getImages().get(0).getImageUrl())
+                .centerCrop()
+                .into(holder.binding.pic);
 
         holder.binding.plusCartBtn.setOnClickListener(view -> managementCart.plusNumberItem(item, i, () -> {
             notifyDataSetChanged();

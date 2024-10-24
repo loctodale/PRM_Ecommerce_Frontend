@@ -50,7 +50,10 @@ public class MainActivity extends AppCompatActivity {
         binding.cartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, CartActivity.class));
+                Intent intent = new Intent(MainActivity.this, CartActivity.class);
+//                startActivity(new Intent(MainActivity.this, CartActivity.class));
+                intent.putExtra("userId", "6718be16b762285e2490aae2");
+                MainActivity.this.startActivity(intent);
             }
         });
     }

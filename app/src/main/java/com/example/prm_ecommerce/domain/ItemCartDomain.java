@@ -9,10 +9,11 @@ public class ItemCartDomain {
     private int numberInCart;
     private double price;
 
-    public ItemCartDomain(String id, List<ImageDomain> images, String name, double price) {
+    public ItemCartDomain(String id, String name, List<ImageDomain> images, int numberInCart, double price) {
         this.id = id;
-        this.images = images;
         this.name = name;
+        this.images = images;
+        this.numberInCart = numberInCart;
         this.price = price;
     }
 

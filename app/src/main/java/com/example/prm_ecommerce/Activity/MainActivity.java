@@ -1,6 +1,8 @@
 package com.example.prm_ecommerce.Activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,13 +21,16 @@ import com.example.prm_ecommerce.API.Interface.IProductService;
 import com.example.prm_ecommerce.API.Repository.ProductRepository;
 import com.example.prm_ecommerce.Adapter.PopularAdapter;
 import com.example.prm_ecommerce.CustomToast;
+import com.example.prm_ecommerce.Helper.RegisterForPushNotificationsAsync;
 import com.example.prm_ecommerce.R;
 import com.example.prm_ecommerce.databinding.ActivityMainBinding;
 import com.example.prm_ecommerce.domain.ItemCartDomain;
 import com.example.prm_ecommerce.domain.ProductDomain;
 
 import java.util.ArrayList;
+import java.util.concurrent.Executors;
 
+import me.pushy.sdk.Pushy;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -36,14 +41,27 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        EdgeToEdge.enable(this);
+        Pushy.listen(this);
+
         ProductService = ProductRepository.getProductService();
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         statusBarColor();
         initRecyclerView();
-
         bottomNavigation();
+
+        // Register for Pushy notifications
+        new RegisterForPushNotificationsAsync(this).execute();
+
+        // Subscribe to topic in the background
+        Executors.newSingleThreadExecutor().execute(() -> {
+            try {
+                Pushy.subscribe("news", getApplicationContext());
+                Log.d("Pushy", "Subscribed to 'news' topic");
+            } catch (Exception e) {
+                Log.e("Pushy", "Failed to subscribe to 'news' topic", e);
+            }
+        });
     }
 
     private void bottomNavigation() {
@@ -51,8 +69,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, CartActivity.class);
-//                startActivity(new Intent(MainActivity.this, CartActivity.class));
-                intent.putExtra("userId", "6718be16b762285e2490aae2");
                 MainActivity.this.startActivity(intent);
             }
         });

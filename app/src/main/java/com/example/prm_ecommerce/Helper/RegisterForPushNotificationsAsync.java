@@ -23,9 +23,9 @@ public class RegisterForPushNotificationsAsync extends AsyncTask<Void, Void, Obj
         try {
             // Register the device for notifications (replace MainActivity with your Activity class name)
             String deviceToken = Pushy.register(mActivity);
-            new Handler(Looper.getMainLooper()).post(() -> {
-                Toast.makeText(mActivity.getApplicationContext(), deviceToken, Toast.LENGTH_SHORT).show();
-            });
+//            new Handler(Looper.getMainLooper()).post(() -> {
+//                Toast.makeText(mActivity.getApplicationContext(), deviceToken, Toast.LENGTH_SHORT).show();
+//            });
             // Registration succeeded, log token to logcat
             Log.d("Pushy", "Pushy device token: " + deviceToken);
 

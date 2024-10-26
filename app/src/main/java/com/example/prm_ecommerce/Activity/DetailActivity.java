@@ -11,17 +11,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.example.prm_ecommerce.API.Interface.ICartService;
 import com.example.prm_ecommerce.API.Interface.IProductService;
+import com.example.prm_ecommerce.API.Interface.IUserService;
 import com.example.prm_ecommerce.API.Repository.CartRepository;
 import com.example.prm_ecommerce.API.Repository.ProductRepository;
+import com.example.prm_ecommerce.API.Repository.UserRepository;
 import com.example.prm_ecommerce.CustomToast;
 import com.example.prm_ecommerce.Model.RequestAddProductToCartModel;
+import com.example.prm_ecommerce.Model.RequestUpdateWishList;
 import com.example.prm_ecommerce.R;
 import com.example.prm_ecommerce.databinding.ActivityDetailBinding;
 import com.example.prm_ecommerce.databinding.ActivityMainBinding;
 import com.example.prm_ecommerce.domain.CartDomain;
 import com.example.prm_ecommerce.domain.ProductDomain;
+import com.example.prm_ecommerce.domain.UserDomain;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Currency;
 
 import retrofit2.Call;
@@ -32,32 +37,61 @@ public class DetailActivity extends AppCompatActivity {
     private ActivityDetailBinding binding;
     IProductService ProductService;
     ICartService CartService;
+    IUserService UserService;
     private String _id;
     int numberOrder = 1;
+    Boolean isFav = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ProductService = ProductRepository.getProductService();
         CartService = CartRepository.getCartService();
+        UserService = UserRepository.getUserService();
         binding = ActivityDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        _id = (String) getIntent().getSerializableExtra("object");
+
         getBundles();
 
         binding.backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DetailActivity.this, MainActivity.class);
-                DetailActivity.this.startActivity(intent);
+                finish();
+            }
+        });
+        binding.bookmark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RequestUpdateWishList request = new RequestUpdateWishList("6718be16b762285e2490aae2", _id);
+                Call<UserDomain> call = UserService.toggleWishList(request);
+                call.enqueue(new Callback<UserDomain>() {
+                    @Override
+                    public void onResponse(Call<UserDomain> call, Response<UserDomain> response) {
+                        if(isFav) {
+                            binding.bookmark.setImageResource(R.drawable.bookmark);
+                            isFav = false;
+                        } else {
+                            binding.bookmark.setImageResource(R.drawable.bookmark2);
+                            isFav = true;
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserDomain> call, Throwable throwable) {
+
+                    }
+                });
             }
         });
     }
+
 
     private void getBundles() {
         NumberFormat format = NumberFormat.getCurrencyInstance();
         format.setMaximumFractionDigits(0);
         format.setCurrency(Currency.getInstance("VND"));
-        _id = (String) getIntent().getSerializableExtra("object");
+
         Call<ProductDomain> call = ProductService.getProductById(_id);
         call.enqueue(new Callback<ProductDomain>() {
             @Override
@@ -72,6 +106,28 @@ public class DetailActivity extends AppCompatActivity {
                         binding.titleTxt.setText(object.getName());
                         binding.priceTxt.setText(format.format(object.getPrice()));
                         binding.descriptionTxt.setText(object.getDescription());
+                        Call<UserDomain> callUser = UserService.getUserById("6718be16b762285e2490aae2");
+                        callUser.enqueue(new Callback<UserDomain>() {
+                            @Override
+                            public void onResponse(Call<UserDomain> call, Response<UserDomain> response) {
+                                for (ProductDomain product : response.body().getWishList()) {
+                                    if(product.get_id().equals(object.get_id())){
+                                        isFav = true;
+                                    }
+                                }
+                                if (isFav) {
+                                    binding.bookmark.setImageResource(R.drawable.bookmark2);
+                                } else {
+                                    binding.bookmark.setImageResource(R.drawable.bookmark);
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<UserDomain> call, Throwable throwable) {
+
+                            }
+                        });
+
                         binding.addToCartBtn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {

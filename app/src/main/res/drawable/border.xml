@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- res/drawable/border.xml -->
+    <shape xmlns:android="http://schemas.android.com/apk/res/android">
+        <solid android:color="#FFFFFF" /> <!-- Màu nền, tùy chỉnh theo ý bạn -->
+        <stroke android:width="2dp" android:color="#000000" /> <!-- Màu và độ dày của viền -->
+        <corners android:radius="5dp" /> <!-- Góc bo tròn của viền, tùy chỉnh theo ý bạn -->
+    </shape>
+</selector>

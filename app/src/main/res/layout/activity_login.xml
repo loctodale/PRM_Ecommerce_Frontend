@@ -7,8 +7,7 @@
     android:orientation="vertical"
     android:padding="20dp"
     android:gravity="center"
-    tools:context=".Activity.LoginActivity"
-
+    android:background="@drawable/background_login"
     >
 
     <EditText
@@ -59,10 +58,11 @@
         android:id="@+id/createText"
         android:layout_width="223dp"
         android:layout_height="35dp"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="84dp"
         android:text="New account?  Create here"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.459"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/btn_login" />
 
@@ -70,7 +70,7 @@
         android:id="@+id/txtForgetPassRe"
         android:layout_width="217dp"
         android:layout_height="42dp"
-        android:layout_marginBottom="200dp"
+        android:layout_marginBottom="136dp"
 
         android:gravity="center"
         android:text="Forget password"
@@ -79,7 +79,21 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.48"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="236dp"
+        android:layout_height="102dp"
+        android:layout_marginTop="236dp"
+        android:text="ShopgiDo"
+        android:textAlignment="center"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

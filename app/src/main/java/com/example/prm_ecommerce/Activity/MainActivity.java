@@ -1,8 +1,11 @@
 package com.example.prm_ecommerce.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -38,6 +41,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         statusBarColor();
         initRecyclerView();
+        LinearLayout layoutProfile = findViewById(R.id.layoutProfile);
+
+        //Replace with your new activity class
+        layoutProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void statusBarColor() {

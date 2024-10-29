@@ -17,13 +17,13 @@ public interface IUserService {
     Call<UserDomain[]> getAllProducts();
 
     @GET(USER + "/${id}/")
-    Call<UserDomain> getProductById(@Path("id")Object id);
+    Call<UserDomain> getUserById(@Path("id")Object id);
 
     @POST(USER)
-    Call<UserDomain> createProduct(@Body UserDomain product);
+    Call<UserDomain> createUser(@Body UserDomain product);
 
     @PUT(USER + "/{id}")
-    Call<UserDomain> updateProduct(@Path("id")Object id, @Body UserDomain product);
+    Call<UserDomain> updateUser(@Path("id")Object id, @Body UserDomain product);
 
     @DELETE(USER + "/{id}")
     Call<UserDomain> deleteUser(@Path("id") Object id);

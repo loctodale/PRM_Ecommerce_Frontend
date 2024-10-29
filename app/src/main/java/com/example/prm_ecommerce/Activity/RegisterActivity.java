@@ -36,10 +36,10 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register2);
 
-        getSupportActionBar().setTitle("Register");
 
         //edit text for information
         Toast.makeText(RegisterActivity.this, "You can register now", Toast.LENGTH_SHORT).show();
+        progressBar = findViewById(R.id.progressBar);
         edFullName = findViewById(R.id.editText_register_full_name);
         edEmail = findViewById(R.id.editText_register_email);
         edDob = findViewById(R.id.editText_register_dob);
@@ -114,11 +114,10 @@ public class RegisterActivity extends AppCompatActivity {
                 }else{
                     textGender = radioButtonRegisterGenderSelected.getText().toString();
                     progressBar.setVisibility(View.VISIBLE);
-                    registerUser(textFullName,textEmail,textDob,textGender,textMobile,textPwd);
+                    registerUser(textFullName,textEmail,textDob,textMobile,textGender, textPwd);
                 }
             }
         });
-
     }
 
     //Register User using the credentialts given
@@ -135,12 +134,12 @@ public class RegisterActivity extends AppCompatActivity {
                             //Send Verification Email
                             firebaseUser.sendEmailVerification();
 
-                            /*//Open User Profile after successful registration
+                       /*     //Open User Profile after successful registration
                             Intent intent = new Intent(RegisterActivity.this, UserProfileActitvity.class);
                             //To Prevent User returning  back to Register Activity on pressing back button after registration
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
-                            finish(); // to close all activity */
+                            finish(); // to close all activity*/
                         }
                     }
                 }

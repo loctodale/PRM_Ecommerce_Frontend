@@ -51,4 +51,6 @@ dependencies {
     //map
     implementation(libs.play.services.location)
     implementation(libs.play.services.maps)
+    implementation 'me.pushy:sdk:1.0.120'
+
 }

@@ -174,6 +174,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
+                    android:id="@+id/categoryPhone"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.2"
@@ -197,6 +198,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/categoryTools"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.2"
@@ -220,6 +222,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/categoryPC"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.2"
@@ -243,6 +246,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/categoryLaptop"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.2"
@@ -285,7 +289,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/textView11"
+                    android:id="@+id/seeAllTextview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="See all"
@@ -348,6 +352,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/wishListBtn"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.2"
@@ -395,7 +400,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/cartBtn"
+                    android:id="@+id/myOrder"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.2"
@@ -407,14 +412,15 @@
                         android:layout_height="24dp"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:src="@drawable/btn_3" />
+                        app:tint="@color/black"
+                        android:src="@drawable/btn_4_1" />
 
                     <TextView
                         android:id="@+id/textView124"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="Cart"
+                        android:text="My Order"
                         android:textAlignment="center" />
                 </LinearLayout>
 
@@ -447,7 +453,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="TODO"
-            android:src="@drawable/qrcode"
+            android:id="@+id/cartBtn"
+            android:src="@drawable/btn_3"
             app:backgroundTint="@color/purple_Dark"
             app:layout_anchor="@id/appBar"
             app:maxImageSize="30dp"

@@ -15,9 +15,13 @@ public interface IProductService {
 
     @GET(PRODUCT)
     Call<ProductDomain[]> getAllProducts();
+    @GET(PRODUCT+"?limit=5")
+    Call<ProductDomain[]> getPopularProducts();
 
-    @GET(PRODUCT + "/${id}/")
+    @GET(PRODUCT + "/{id}")
     Call<ProductDomain> getProductById(@Path("id")Object id);
+    @GET(PRODUCT + "/category/{id}")
+    Call<ProductDomain[]> getProductByCategoryId(@Path("id")Object id);
 
     @POST(PRODUCT)
     Call<ProductDomain> createProduct(@Body ProductDomain product);

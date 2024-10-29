@@ -2,50 +2,41 @@ package com.example.prm_ecommerce.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners;
 import com.example.prm_ecommerce.Activity.DetailActivity;
 import com.example.prm_ecommerce.databinding.ViewholderPupListBinding;
 import com.example.prm_ecommerce.domain.ProductDomain;
-import com.example.prm_ecommerce.R;
 
-import java.io.Serializable;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Currency;
 
-public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.Viewholder> {
+public class ListItemInCategoryAdapter extends RecyclerView.Adapter<ListItemInCategoryAdapter.Viewholder> {
     ArrayList<ProductDomain> item;
     Context context;
     ViewholderPupListBinding binding;
 
-    public PopularAdapter(ArrayList<ProductDomain> item) {
+    public ListItemInCategoryAdapter(ArrayList<ProductDomain> item) {
         this.item = item;
     }
 
     @NonNull
     @Override
 
-    public PopularAdapter.Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ListItemInCategoryAdapter.Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         binding = ViewholderPupListBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         context = parent.getContext();
         return new Viewholder(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PopularAdapter.Viewholder holder, int position) {
+    public void onBindViewHolder(@NonNull ListItemInCategoryAdapter.Viewholder holder, int position) {
         NumberFormat format = NumberFormat.getCurrencyInstance();
         format.setMaximumFractionDigits(0);
         format.setCurrency(Currency.getInstance("VND"));

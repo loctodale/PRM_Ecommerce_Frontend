@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- res/drawable/edittextcursor.xml -->
+    <shape xmlns:android="http://schemas.android.com/apk/res/android">
+        <size android:width="2dp" /> <!-- Độ dày của cursor -->
+        <solid android:color="#FF0000" /> <!-- Màu của cursor, ví dụ là đỏ -->
+    </shape>
+</selector>

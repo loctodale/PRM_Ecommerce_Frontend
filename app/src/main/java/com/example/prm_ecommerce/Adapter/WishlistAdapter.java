@@ -27,7 +27,6 @@ import java.util.Currency;
 public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Viewholder> {
     ArrayList<ProductDomain> item;
     Context context;
-    ManagementCart managementCart;
 
     public WishlistAdapter(ArrayList<ProductDomain> item ) {
         this.item = item;
@@ -37,7 +36,6 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Viewho
     public WishlistAdapter.Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ViewholderWishlistBinding binding = ViewholderWishlistBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         context = parent.getContext();
-        managementCart = new ManagementCart(context);
         return new Viewholder(binding);
     }
 

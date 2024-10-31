@@ -181,7 +181,7 @@
                 android:background="@drawable/grey_background">
 
                 <ImageView
-                    android:id="@+id/imageView12"
+                    android:id="@+id/ivAddAddress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
@@ -213,7 +213,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/textView26"
                     app:layout_constraintTop_toBottomOf="@+id/textView26"
-                    tools:srcCompat="@drawable/credit_card" />
+                    app:srcCompat="@drawable/credit_card" />
 
                 <TextView
                     android:id="@+id/textView26"
@@ -241,7 +241,7 @@
                     android:layout_marginTop="16dp"
                     app:layout_constraintStart_toStartOf="@+id/textView24"
                     app:layout_constraintTop_toBottomOf="@+id/textView24"
-                    tools:srcCompat="@drawable/location" />
+                    app:srcCompat="@drawable/location" />
 
                 <TextView
                     android:id="@+id/textView25"

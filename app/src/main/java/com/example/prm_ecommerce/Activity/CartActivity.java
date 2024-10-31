@@ -1,9 +1,11 @@
 package com.example.prm_ecommerce.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,6 +40,7 @@ public class CartActivity extends AppCompatActivity {
     private String userId;
     private ICartService CartService;
 
+    ImageView ivAddAddress;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +56,20 @@ public class CartActivity extends AppCompatActivity {
         calculatorCart();
         initList();
 
+        ivAddAddress = (ImageView) findViewById(R.id.ivAddAddress);
+        ivAddAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addAddress();
+            }
+        });
+
     }
+
+    private void addAddress(){
+        startActivity(new Intent(CartActivity.this, AddAddressActivity.class));
+    }
+
 
     private void addSampleProducts() {
         Call<CartDomain> call = CartService.getCartByUserId(userId);

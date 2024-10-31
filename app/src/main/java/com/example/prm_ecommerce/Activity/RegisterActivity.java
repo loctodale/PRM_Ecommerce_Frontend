@@ -132,6 +132,8 @@ public class RegisterActivity extends AppCompatActivity {
 
                             //Send Verification Email
                             firebaseUser.sendEmailVerification();
+                            NavigateLogin();
+
 
                        /*     //Open User Profile after successful registration
                             Intent intent = new Intent(RegisterActivity.this, UserProfileActitvity.class);
@@ -143,5 +145,10 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 }
         );
+    }
+
+    private void NavigateLogin(){
+        Intent intent = new Intent(RegisterActivity.this , LoginActivity.class);
+        startActivity(intent);
     }
 }

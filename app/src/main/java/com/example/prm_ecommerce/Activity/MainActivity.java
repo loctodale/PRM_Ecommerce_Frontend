@@ -1,6 +1,7 @@
 package com.example.prm_ecommerce.Activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         categoryNavigation();
         bottomNavigation();
         controlNavigation();
+        loginOrProfileSwitch();
         // Register for Pushy notifications
         new RegisterForPushNotificationsAsync(this).execute();
 
@@ -62,6 +64,23 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // chuyen doi login or profile
+    private void loginOrProfileSwitch(){
+        binding.imageView85.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences sharedPreferences = getSharedPreferences("user_data", MODE_PRIVATE);
+                String userId = sharedPreferences.getString("userId", null);
+                if(userId!= null){
+                    Intent intent = new Intent(MainActivity.this , UserProfileActitvity.class);
+                    startActivity(intent);
+                }else{
+                    Intent intent = new Intent(MainActivity.this , LoginActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
+    }
     private void controlNavigation() {
         binding.btnNotification.setOnClickListener(new View.OnClickListener() {
             @Override

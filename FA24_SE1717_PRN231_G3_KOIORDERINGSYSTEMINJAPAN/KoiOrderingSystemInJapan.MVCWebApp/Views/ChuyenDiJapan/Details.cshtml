@@ -1,0 +1,65 @@
+﻿@model KoiOrderingSystemInJapan.Data.Models.Travel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1 class="text-center mb-4">Chi tiết chuyến đi</h1>
+<style>
+    .card {
+        border-radius: 4px;
+        background: #fff;
+        box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
+        transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
+        cursor: pointer;
+    }
+
+    /* Ghi đè hiệu ứng hover */
+    .card:hover {
+        transform: none; /* Loại bỏ hiệu ứng phóng to */
+        box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05); /* Giữ nguyên bóng đổ */
+    }
+</style>
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="my-0 fw-normal">@Model.Name</h4>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">Địa điểm:</dt>
+                <dd class="col-sm-9">@Model.Location</dd>
+
+                <dt class="col-sm-3">Giá:</dt>
+                <dd class="col-sm-9">@Model.Price</dd>
+
+                <dt class="col-sm-3">Ghi chú:</dt>
+                <dd class="col-sm-9">@Model.Note</dd>
+            </dl>
+
+            <h5 class="mt-4">Danh sách Farms:</h5>
+            @if (Model.TravelFarms != null && Model.TravelFarms.Any())
+            {
+                <ul class="list-group">
+                    @foreach (var travelFarm in Model.TravelFarms)
+                    {
+                        <li class="list-group-item">
+                            <strong>Farm:</strong> @travelFarm.Farm.Name <br />
+                            <strong>Owner:</strong> @travelFarm.Farm.Owner <br />
+                            <strong>Phone:</strong> @travelFarm.Farm.Phone <br />
+                            <strong>Email:</strong> @travelFarm.Farm.Email <br />
+                            <strong>Address:</strong> @travelFarm.Farm.Address <br />
+                            <strong>Ghi chú:</strong> @travelFarm.Note
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p>Không có farms nào liên kết.</p>
+            }
+        </div>
+        
+    </div>
+</div>

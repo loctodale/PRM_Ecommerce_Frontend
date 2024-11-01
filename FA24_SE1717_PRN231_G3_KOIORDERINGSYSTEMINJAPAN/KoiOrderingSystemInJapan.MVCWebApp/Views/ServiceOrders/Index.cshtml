@@ -1,0 +1,65 @@
+﻿@model KoiOrderingSystemInJapan.Data.Response.PagedResult<KoiOrderingSystemInJapan.Data.Models.ServiceOrder>
+
+@{
+    ViewData["Title"] = "Service Order List";
+    int currentPage = ViewBag.CurrentPage ?? 1;
+    int totalPages = ViewBag.TotalPages ?? 1;
+}
+
+<h1>Service Order List</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Data.FirstOrDefault().Id)</th>
+            <th>@Html.DisplayNameFor(model => model.Data.FirstOrDefault().Quantity)</th>
+            <th>@Html.DisplayNameFor(model => model.Data.FirstOrDefault().TotalPrice)</th>
+            <th>@Html.DisplayNameFor(model => model.Data.FirstOrDefault().CreatedBy)</th>
+            <th>@Html.DisplayNameFor(model => model.Data.FirstOrDefault().CreatedDate)</th>
+            <th>@Html.DisplayNameFor(model => model.Data.FirstOrDefault().UpdatedBy)</th>
+            <th>@Html.DisplayNameFor(model => model.Data.FirstOrDefault().UpdatedDate)</th>
+            <th>@Html.DisplayNameFor(model => model.Data.FirstOrDefault().IsDeleted)</th>
+            <th>@Html.DisplayNameFor(model => model.Data.FirstOrDefault().Note)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Data) // Lặp qua Model.Data
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
+                <td>@Html.DisplayFor(modelItem => item.TotalPrice)</td>
+                <td>@Html.DisplayFor(modelItem => item.CreatedBy)</td>
+                <td>@Html.DisplayFor(modelItem => item.CreatedDate)</td>
+                <td>@Html.DisplayFor(modelItem => item.UpdatedBy)</td>
+                <td>@Html.DisplayFor(modelItem => item.UpdatedDate)</td>
+                <td>@Html.DisplayFor(modelItem => item.IsDeleted)</td>
+                <td>@Html.DisplayFor(modelItem => item.Note)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+            <a class="page-link" href="?page=@(currentPage - 1)&pageSize=10" tabindex="-1">Previous</a>
+        </li>
+
+        @for (int i = 1; i <= totalPages; i++)
+        {
+            <li class="page-item @(i == currentPage ? "active" : "")">
+                <a class="page-link" href="?page=@i&pageSize=10">@i</a>
+            </li>
+        }
+
+        <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
+            <a class="page-link" href="?page=@(currentPage + 1)&pageSize=10">Next</a>
+        </li>
+    </ul>
+</nav>
+
+<script>
+    // Có thể thêm mã JavaScript ở đây nếu cần
+</script>

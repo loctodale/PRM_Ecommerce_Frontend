@@ -1,0 +1,68 @@
+﻿@model KoiOrderingSystemInJapan.Data.Models.DeliveryDetail
+@{
+    ViewData["Title"] = "Delivery";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <a href="@Url.Action("Index", "Order")">← TRỞ LẠI</a>
+            <span class="float-right text-success">GIAO HÀNG THÀNH CÔNG</span>
+        </div>
+        <div class="col-12">
+            <h5>Mã Đơn Hàng: @Model.DeliveryId</h5>
+        </div>
+    </div>
+
+    <!-- Order Status Steps -->
+    <div class="row mt-3">
+        <div class="col-3 text-center">
+            <div class="step-icon">
+                <i class="fas fa-file-alt"></i>
+            </div>
+            <p>Đơn Hàng Đã Đặt<br />@Model.CreatedDate</p>
+        </div>
+        <div class="col-3 text-center">
+            <div class="step-icon">
+                <i class="fas fa-dollar-sign"></i>
+            </div>
+            <p>Đơn Hàng Đã Thanh Toán<br />@Model.Delivery.UpdatedDate</p>
+        </div>
+        <div class="col-3 text-center">
+            <div class="step-icon">
+                <i class="fas fa-truck"></i>
+            </div>
+            <p>Đã Giao Cho ĐVVC<br />@Model.Delivery.UpdatedDate</p>
+        </div>
+        <div class="col-3 text-center">
+            <div class="step-icon">
+                <i class="fas fa-box"></i>
+            </div>
+            <p>Chờ Giao Hàng</p>
+        </div>
+    </div>
+
+    <!-- Buttons for actions -->
+    <div class="row mt-4">
+        <div class="col-12 text-center">
+            <button class="btn btn-danger">Đã Nhận Hàng</button>
+            <button class="btn btn-secondary">Yêu Cầu Trả Hàng/Hoàn Tiền</button>
+            <button class="btn btn-outline-primary">Liên Hệ Người Bán</button>
+        </div>
+    </div>
+</div>
+
+<!-- CSS for the progress bar -->
+<style>
+    .step-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: #28a745;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+    }
+</style>

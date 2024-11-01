@@ -1,0 +1,142 @@
+﻿@model KoiOrderingSystemInJapan.Data.Models.KoiFish
+
+@{
+    ViewData["Title"] = "Chi tiết cá Koi";
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        .container {
+            display: flex;
+            margin: 20px;
+        }
+
+        .image-container {
+            width: 30%;
+            padding: 20px;
+        }
+
+            .image-container img {
+                width: 350px;
+                height: 550px;
+                border-radius: 8px;
+            }
+
+        .info-container {
+            width: 40%;
+            padding: 20px;
+        }
+
+            .info-container h2 {
+                color: red;
+            }
+
+            .info-container table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            .info-container th, .info-container td {
+                border: 1px solid #ddd;
+                padding: 8px;
+            }
+
+            .info-container th {
+                background-color: #f2f2f2;
+            }
+
+        .contact-info {
+            width: 30%;
+            margin-top: 20px;
+        }
+
+            .contact-info h3 {
+                margin-bottom: 10px;
+            }
+
+
+
+        .details {
+            margin-top: 20px;
+        }
+
+            .details h3 {
+                margin-bottom: 10px;
+            }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="image-container">
+            <img src="@Model.Picture" alt="Hình ảnh cá Koi" />
+        </div>
+        <div class="info-container">
+            <h2>@Html.DisplayFor(model => model.Name)</h2>
+            <table>
+                <tr>
+                    <th>Giá</th>
+                    <td>@Html.DisplayFor(model => model.Price)</td>
+                </tr>
+                <tr>
+                    <th>Năm sinh</th>
+                    <td>@Html.DisplayFor(model => model.Dob)</td>
+                </tr>
+                <tr>
+                    <th>Giới tính</th>
+                    <td>@Html.DisplayFor(model => model.Gender)</td>
+                </tr>
+                <tr>
+                    <th>Giống</th>
+                    <td>Nhật Bản</td>
+                </tr>
+                <tr>
+                    <th>Nguồn gốc</th>
+                    <td>@Html.DisplayFor(model => model.Origin)</td>
+                </tr>
+                <tr>
+                    <th>Kích thước</th>
+                    <td>@Html.DisplayFor(model => model.Size.SizeInCm)</td>
+                </tr>
+                <tr>
+                    <th>Tình trạng</th>
+                    <td style="color: @(Model.Status == "Sold" ? "red" : "green");">
+                        @(Model.Status == "Sold" ? "Hết hàng" : "Còn")
+                    </td>
+                </tr>
+                <tr>
+                    <th>Mô tả</th>
+                    <td>@Html.DisplayFor(model => model.Description)</td>
+                </tr>
+            </table>
+
+            <div class="details">
+                <h3>Chi tiết sản phẩm</h3>
+                <ul>
+                    <li>Chăm sóc dễ dàng</li>
+                    <li>Chế độ ăn: Ăn tạp</li>
+                    <li>Tính cách: Hoà bình</li>
+                    <li>Màu sắc: Đỏ, đen, xanh, xám, trắng</li>
+                </ul>
+            </div>
+        </div>
+        <div class="contact-info">
+            <h3>Thông tin liên hệ</h3>
+            <p>Địa chỉ: 87 Thịnh Liệt, Hoàng Mai, Hà Nội</p>
+            <p>Điện thoại: 0787225999</p>
+            <p>Email: tranminhtuan93xd@gmail.com</p>
+
+            <!-- Nút Mua ngay -->
+            <a href="#" class="buy-now-btn">
+                <button type="button" class="btn btn-danger">Mua ngay</button>
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>

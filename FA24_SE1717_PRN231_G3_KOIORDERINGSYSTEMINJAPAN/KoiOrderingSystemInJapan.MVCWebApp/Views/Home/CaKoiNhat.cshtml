@@ -1,0 +1,48 @@
+﻿@model IEnumerable<KoiOrderingSystemInJapan.Data.Models.KoiFish>
+
+@{
+    ViewData["Title"] = "CaKoiNhat";
+}
+
+<div>
+    <header>
+        <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+            <h1 class="display-4 fw-normal">Cá KOI THE'</h1>
+            <p class="fs-5 text-muted">Explore our exciting travel and find your perfect getaway.</p>
+        </div>
+    </header>
+
+    <main>
+        @if (Model != null && Model.Any())
+        {
+            int itemsPerRow = 4;
+            int totalItems = Model.Count();
+            int totalRows = (int)Math.Ceiling((double)totalItems / itemsPerRow);
+
+            for (int row = 0; row < totalRows; row++)
+            {
+                <div class="row row-cols-1 row-cols-md-4 mb-4 text-center justify-content-center">
+                    @foreach (var koi in Model.Skip(row * itemsPerRow).Take(itemsPerRow))
+                    {
+                        <div class="col mb-4">
+                            <a asp-controller="KoiFishes" asp-action="Details" asp-route-id="@koi.Id" class="w-100 btn btn-lg btn-btn-light mt-auto">
+
+                                <div class="card h-100 shadow-sm">
+                                    <div class="card-body p-0 d-flex flex-column">
+                                        <img src="@koi.Picture" alt="@koi.Name" class="card-img-top" style="height: 350px; max-height:400px; object-fit: cover;" />
+                                        <h4 class="my-1 p-1 fw-normal text-dark">@koi.Name</h4>
+                                        <h2 class="card-title pricing-card-title text-dark">@koi.Price đ</h2>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                </div>
+            }
+        }
+        else
+        {
+            <p>No koi the' available at the moment.</p>
+        }
+    </main>
+</div>

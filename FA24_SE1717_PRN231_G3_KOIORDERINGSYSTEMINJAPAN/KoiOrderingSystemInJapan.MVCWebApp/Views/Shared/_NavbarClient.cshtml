@@ -1,0 +1,67 @@
+﻿@using KoiOrderingSystemInJapan.Data.Models
+@using KoiOrderingSystemInJapan.MVCWebApp.Tools
+@{
+    var categories = Context.Items["KoiCategories"] as List<Category>;
+    var user = Context.Items["User"] as User;
+}
+
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-black text-w border-bottom box-shadow mb-3">
+    <div class="container-fluid">
+        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">KoiOrderingSystemInJapan.MVCWebApp</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+            <ul class="navbar-nav flex-grow-1">
+                <li class="nav-item">
+                    <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Trang chủ</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Privacy">Giới thiệu</a>
+                </li>
+               <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-light" asp-controller="Home" asp-action="CaKoiNhat" >
+                        Cá Koi Nhật
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="koiDropdown">
+                        @if (categories != null)
+                        {
+                            foreach (var category in categories)
+                            {
+                                <li>
+                                    <a class="dropdown-item" asp-controller="CaKoiNhat" asp-action="Index" asp-route-category="@SlugHelper.ConvertToSlugName(category.Name)">
+                                        @category.Name
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link text-light" asp-area="" asp-controller="ChuyenDiJapan" asp-action="Index">Chuyến đi Japan</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                @if (Context.Items["IsLogin"] is bool isLogin && isLogin == false)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link text-light" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item">
+                        <a id="manage" class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Welcome, @user.Username</a>
+                    </li>
+                    <li class="nav-item">
+                        <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                            <button id="logout" type="submit" class="nav-link btn btn-link text-light border-0">Logout</button>
+                        </form>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</nav>

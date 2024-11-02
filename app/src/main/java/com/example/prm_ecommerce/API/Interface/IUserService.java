@@ -2,6 +2,7 @@ package com.example.prm_ecommerce.API.Interface;
 
 import com.example.prm_ecommerce.Model.RequestUpdateWishList;
 import com.example.prm_ecommerce.domain.CartDomain;
+import com.example.prm_ecommerce.domain.LoginDomain;
 import com.example.prm_ecommerce.domain.ProductDomain;
 import com.example.prm_ecommerce.domain.UserDomain;
 
@@ -21,8 +22,11 @@ public interface IUserService {
     @POST(USER)
     Call<UserDomain> createUser(@Body UserDomain user);
 
+    @POST("auth/login")
+    Call<UserDomain> loginUser(@Body LoginDomain login);
+
     @PUT(USER + "/{id}")
-    Call<UserDomain> updateProduct(@Path("id")Object id, @Body UserDomain user);
+    Call<UserDomain> updateUser(@Path("id")Object id, @Body UserDomain user);
 
     @POST(USER + "/updateWishList")
     Call<UserDomain> toggleWishList(@Body RequestUpdateWishList request);

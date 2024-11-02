@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.prm_ecommerce.API.Interface.IUserService;
 import com.example.prm_ecommerce.Model.UserModel;
 import com.example.prm_ecommerce.R;
+import com.example.prm_ecommerce.domain.UserDomain;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -74,6 +75,8 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(LoginActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
+
+
 
                             FirebaseUser firebaseUser = auth.getCurrentUser();
                             if (firebaseUser != null) {

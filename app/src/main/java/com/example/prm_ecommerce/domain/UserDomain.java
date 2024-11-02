@@ -22,6 +22,10 @@ public class UserDomain {
         this.wishList = wishList;
     }
 
+    public UserDomain(){
+
+    }
+
     public String get_id() {
         return _id;
     }

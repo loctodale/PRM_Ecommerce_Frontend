@@ -13,12 +13,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.prm_ecommerce.API.Interface.INotificationService;
 import com.example.prm_ecommerce.API.Interface.IProductService;
+import com.example.prm_ecommerce.API.Repository.NotificationRepository;
 import com.example.prm_ecommerce.API.Repository.ProductRepository;
 import com.example.prm_ecommerce.Adapter.PopularAdapter;
 import com.example.prm_ecommerce.Helper.RegisterForPushNotificationsAsync;
 import com.example.prm_ecommerce.R;
 import com.example.prm_ecommerce.databinding.ActivityMainBinding;
+import com.example.prm_ecommerce.domain.NotificationDomain;
 import com.example.prm_ecommerce.domain.ProductDomain;
 
 import java.util.ArrayList;
@@ -34,6 +37,7 @@ import vn.zalopay.sdk.ZaloPaySDK;
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     IProductService ProductService;
+    INotificationService NotificationService;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,13 +50,14 @@ public class MainActivity extends AppCompatActivity {
         Pushy.listen(this);
 
         ProductService = ProductRepository.getProductService();
+        NotificationService = NotificationRepository.getNoticationService();
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         statusBarColor();
         initRecyclerView();
         categoryNavigation();
         bottomNavigation();
-
+        controlNavigation();
         // Register for Pushy notifications
         new RegisterForPushNotificationsAsync(this).execute();
 
@@ -63,6 +68,16 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("Pushy", "Subscribed to 'news' topic");
             } catch (Exception e) {
                 Log.e("Pushy", "Failed to subscribe to 'news' topic", e);
+            }
+        });
+    }
+
+    private void controlNavigation() {
+        binding.btnNotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, NotificationActivity.class);
+                MainActivity.this.startActivity(intent);
             }
         });
     }
@@ -139,6 +154,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initRecyclerView() {
+        callPopularProduct();
+        callUnseenNotification();
+    }
+
+    private void callUnseenNotification() {
+        Call<NotificationDomain[]> call = NotificationService.getUnseenNotification("6718be16b762285e2490aae2");
+        call.enqueue(new Callback<NotificationDomain[]>() {
+            @Override
+            public void onResponse(Call<NotificationDomain[]> call, Response<NotificationDomain[]> response) {
+                binding.notificationTextview.setText(response.body().length+ "");
+            }
+
+            @Override
+            public void onFailure(Call<NotificationDomain[]> call, Throwable throwable) {
+
+            }
+        });
+    }
+
+    private void callPopularProduct() {
         ArrayList<ProductDomain> items = new ArrayList<>();
         Call<ProductDomain[]> call = ProductService.getPopularProducts();
         call.enqueue(new Callback<ProductDomain[]>() {
@@ -173,4 +208,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }

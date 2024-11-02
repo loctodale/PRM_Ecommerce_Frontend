@@ -52,7 +52,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
-                        android:id="@+id/imageView"
+                        android:id="@+id/btnNotification"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
@@ -73,7 +73,7 @@
                         app:srcCompat="@drawable/red_circle" />
 
                     <TextView
-                        android:id="@+id/textView3"
+                        android:id="@+id/notificationTextview"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"

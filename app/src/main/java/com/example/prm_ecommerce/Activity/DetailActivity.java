@@ -86,7 +86,6 @@ public class DetailActivity extends AppCompatActivity {
         });
     }
 
-
     private void getBundles() {
         NumberFormat format = NumberFormat.getCurrencyInstance();
         format.setMaximumFractionDigits(0);

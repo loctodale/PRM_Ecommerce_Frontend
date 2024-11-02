@@ -27,6 +27,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.example.prm_ecommerce.R;
 
 import java.io.IOException;
@@ -38,27 +40,28 @@ public class AddAddressActivity extends AppCompatActivity implements OnMapReadyC
     private MapView mapView;
     private static final String MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey";
     private static final float DEFAULT_ZOOM = 15f;
-    EditText etSearchAddress;
-    TextView tvDistance;
-    TextView tvAddress;
-    TextView tvShipFee;
-    Button btnSearch;
-    Button btnOk;
-    FusedLocationProviderClient fusedLocationProviderClient;
+    private EditText etSearchAddress;
+    private TextView tvDistance;
+    private TextView tvAddress;
+    private TextView tvShipFee;
+    private Button btnSearch;
+    private Button btnOk;
+    private FusedLocationProviderClient fusedLocationProviderClient;
 
-    double end_latitude = 0.0;
-    double end_longtitude = 0.0;
-    MarkerOptions origin ;
-    MarkerOptions destination;
-    double latitude = 10.8753014;
-    double longtitude = 106.7999996;
+    private double end_latitude = 0.0;
+    private double end_longtitude = 0.0;
+    private double latitude = 10.8753014;
+    private double longtitude = 106.7999996;
 
-    private Marker lastMarker; // Biến để lưu trữ marker cuối cùng
+    private Marker lastMarker;  // Marker của vị trí cuối cùng được tìm kiếm
+    private Polyline polyline;  // Đường nối giữa hai địa điểm
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_add_address);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -66,35 +69,19 @@ public class AddAddressActivity extends AppCompatActivity implements OnMapReadyC
         });
 
         mapView = findViewById(R.id.mvMapView);
-
         etSearchAddress = findViewById(R.id.etAddress);
         btnSearch = findViewById(R.id.btnSearch);
         btnOk = findViewById(R.id.btnOk);
         tvDistance = findViewById(R.id.tvDistance);
         tvAddress = findViewById(R.id.tvAddress);
         tvShipFee = findViewById(R.id.tvShipFee);
-        Bundle mapViewBundle = new Bundle();
 
-        if (savedInstanceState!= null){
-            mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_BUNDLE_KEY);
-        }
-
+        Bundle mapViewBundle = savedInstanceState != null ? savedInstanceState.getBundle(MAP_VIEW_BUNDLE_KEY) : new Bundle();
         mapView.onCreate(mapViewBundle);
         mapView.getMapAsync(this);
 
-        btnSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                searchArea();
-            }
-        });
-
-        btnOk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                clickBtnOk();
-            }
-        });
+        btnSearch.setOnClickListener(view -> searchArea());
+        btnOk.setOnClickListener(view -> clickBtnOk());
     }
 
     private void clickBtnOk() {
@@ -105,7 +92,7 @@ public class AddAddressActivity extends AppCompatActivity implements OnMapReadyC
         // Tạo Intent để quay về trang giỏ hàng
         Intent intent = new Intent(AddAddressActivity.this, CartActivity.class);
         intent.putExtra("ADDRESS", address); // Truyền địa chỉ
-        intent.putExtra("SHIPPING_FEE", shippingFee); // Truyền phí ship
+        intent.putExtra("DELIVERY_FEE", shippingFee); // Truyền phí ship
 
         startActivity(intent); // Khởi chạy CartActivity
         finish(); // Kết thúc AddAddressActivity nếu không cần quay lại
@@ -114,7 +101,6 @@ public class AddAddressActivity extends AppCompatActivity implements OnMapReadyC
     private void searchArea() {
         String location = etSearchAddress.getText().toString();
         List<Address> addressList = new ArrayList<>();
-        MarkerOptions markerOptions = new MarkerOptions();
 
         if (!location.isEmpty()) {
             Geocoder geocoder = new Geocoder(getApplicationContext());
@@ -125,57 +111,60 @@ public class AddAddressActivity extends AppCompatActivity implements OnMapReadyC
             }
 
             if (addressList != null && !addressList.isEmpty()) {
-                // Lấy địa chỉ đầu tiên từ danh sách kết quả
                 Address myAddress = addressList.get(0);
                 LatLng latLng = new LatLng(myAddress.getLatitude(), myAddress.getLongitude());
 
-                // Nếu marker trước đó đã tồn tại, xóa nó
+                // Nếu marker và polyline trước đó đã tồn tại, xóa chúng
                 if (lastMarker != null) {
                     lastMarker.remove();
                 }
+                if (polyline != null) {
+                    polyline.remove();
+                }
 
-                // Tạo marker mới và lưu vào biến lastMarker
-                markerOptions.position(latLng);
+                // Tạo marker mới và vẽ trên bản đồ
+                MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("Vị trí tìm kiếm");
                 lastMarker = mMap.addMarker(markerOptions);
                 mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
 
-                // Lưu tọa độ đích
+                // Cập nhật tọa độ đích
                 end_latitude = myAddress.getLatitude();
                 end_longtitude = myAddress.getLongitude();
 
-                // Tính khoảng cách giữa vị trí mặc định và vị trí tìm kiếm
+                // Tính khoảng cách và phí ship
                 float[] results = new float[1];
                 Location.distanceBetween(latitude, longtitude, end_latitude, end_longtitude, results);
                 double distanceInKm = results[0] / 1000;  // Chuyển sang km
+                int shippingFee = (int)distanceInKm * 5000; // Tính phí ship
 
-                // Tính phí vận chuyển
-                int shippingFee = (int) ((int)distanceInKm * 5000); // Tính phí ship
-
-                // Hiển thị địa chỉ và khoảng cách trong các TextView
+                // Cập nhật thông tin lên TextView
                 tvAddress.setText(myAddress.getAddressLine(0));
-                tvDistance.setText(String.format("%.1f", distanceInKm));
+                tvDistance.setText(String.format("%.1f km", distanceInKm));
                 tvShipFee.setText(String.valueOf(shippingFee)); // Hiển thị phí vận chuyển
 
+                // Vẽ đường nối giữa vị trí mặc định và vị trí tìm kiếm
+                polyline = mMap.addPolyline(new PolylineOptions()
+                        .add(new LatLng(latitude, longtitude), latLng)
+                        .color(getResources().getColor(R.color.purple_Light))
+                        .width(5f));
             }
         } else {
             Toast.makeText(this, "Vui lòng nhập địa chỉ", Toast.LENGTH_SHORT).show();
         }
     }
+
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
-
         Bundle mapViewBundle = outState.getBundle(MAP_VIEW_BUNDLE_KEY);
-        if (mapViewBundle == null){
-            mapViewBundle = new  Bundle();
+        if (mapViewBundle == null) {
+            mapViewBundle = new Bundle();
             outState.putBundle(MAP_VIEW_BUNDLE_KEY, mapViewBundle);
         }
-
         mapView.onSaveInstanceState(mapViewBundle);
     }
 
-
-    private void moveCamera(LatLng latLng, Float zoom){
+    private void moveCamera(LatLng latLng, Float zoom) {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
     }
 

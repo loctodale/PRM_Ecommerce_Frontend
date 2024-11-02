@@ -24,20 +24,40 @@
         android:theme="@style/Theme.Prm_Ecommerce"
         tools:targetApi="31">
         <activity
+            android:name=".Activity.PaymentNotification"
+            android:exported="false" />
+        <activity
             android:name=".Activity.WishListActivity"
             android:exported="false" />
         <activity
             android:name=".Activity.ListItemInCategoryActivity"
             android:exported="false" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="key"/>
+            android:value="AIzaSyB7hU_FUGRuX7QQBduC1jrL1cZ68h1gzcY" />
+
         <activity
             android:name=".Activity.AddAddressActivity"
             android:exported="false" />
         <activity
             android:name=".Activity.CartActivity"
-            android:exported="false" />
+            android:exported="true"
+            android:label="Merchant Demo"
+            android:launchMode="singleTask"
+            >
+            <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+
+            <data
+                android:host="app"
+                android:scheme="demozpdk" />
+            </intent-filter>
+
+        </activity>
+
         <activity
             android:name=".Activity.DetailActivity"
             android:exported="false" />

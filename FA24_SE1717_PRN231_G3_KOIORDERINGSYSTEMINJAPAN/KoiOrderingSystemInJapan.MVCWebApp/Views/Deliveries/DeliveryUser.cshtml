@@ -1,0 +1,87 @@
+﻿@model KoiOrderingSystemInJapan.Data.Models.DeliveryDetail
+@{
+    ViewData["Title"] = "DeliveryUser";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <a href="@Url.Action("Index", "Order")">← TRỞ LẠI</a>
+            <span class="float-right text-success">GIAO HÀNG THÀNH CÔNG</span>
+        </div>
+        <div class="col-12">
+            <h5>Mã Đơn Hàng: @Model.DeliveryId</h5>
+        </div>
+    </div>
+
+    <!-- Order Status Steps -->
+    <div class="row mt-3">
+        <div class="col-3 text-center">
+            <div class="step-icon">
+                <i class="fas fa-file-alt"></i>
+            </div>
+            <p>Đơn Hàng Đã Đặt<br />@Model.CreatedDate</p>
+        </div>
+        <div class="col-3 text-center">
+            <div class="step-icon">
+                <i class="fas fa-dollar-sign"></i>
+            </div>
+            <p>Đơn Hàng Đã Thanh Toán<br />@Model.Delivery.UpdatedDate</p>
+        </div>
+        <div class="col-3 text-center">
+            <div class="step-icon">
+                <i class="fas fa-truck"></i>
+            </div>
+            <p>Đã Giao Cho ĐVVC<br />@Model.Delivery.UpdatedDate</p>
+        </div>
+        <div class="col-3 text-center">
+            <div class="step-icon">
+                <i class="fas fa-box"></i>
+            </div>
+            <p>Chờ Giao Hàng</p>
+        </div>
+    </div>
+
+    <!-- Buttons for actions -->
+    <div class="row mt-4">
+        <div class="col-12 text-center">
+            <button class="btn btn-danger">Đã Nhận Hàng</button>
+            <button class="btn btn-secondary">Yêu Cầu Trả Hàng/Hoàn Tiền</button>
+            <button class="btn btn-outline-primary">Liên Hệ Người Bán</button>
+        </div>
+    </div>
+
+
+    <div class="k-card-deck">
+        <div class="k-card k-card-type-rich">
+            <img src="https://demos.telerik.com/kendo-ui/content/chat/quote_full.jpeg" alt="undefined" class="k-card-media">
+            <div class="k-card-body">
+                <h5 class="k-card-title">Full Coverage</h5>
+                <h6 class="k-card-subtitle">5% of car cost</h6>
+            </div>
+            <div class="k-actions k-card-actions k-actions-vertical k-actions-stretched">
+                <span class="k-card-action">
+                    <button class="k-button k-button-flat-primary k-button-flat k-button-md k-rounded-md" data-value="View details of Full Coverage">View Details</button>
+                </span>
+                <span class="k-card-action">
+                    <button class="k-button k-button-flat-primary k-button-flat k-button-md k-rounded-md" data-value="Get a quote for Full Coverage">Get a Quote</button>
+                </span>
+            </div>
+        </div>
+        </div>
+</div>
+
+<!-- CSS for the progress bar -->
+<style>
+    .step-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: #28a745;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+    }
+</style>

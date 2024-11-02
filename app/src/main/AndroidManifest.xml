@@ -34,7 +34,7 @@
             android:exported="false" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="key"/>
+            android:value="value"/>
         <activity
             android:name=".Activity.AddAddressActivity"
             android:exported="false" />

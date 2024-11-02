@@ -1,12 +1,14 @@
 package com.example.prm_ecommerce.Activity;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.prm_ecommerce.API.Interface.ICartService;
@@ -41,7 +43,7 @@ public class DetailActivity extends AppCompatActivity {
     private String _id;
     int numberOrder = 1;
     Boolean isFav = false;
-
+    ProductDomain object;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,12 +70,16 @@ public class DetailActivity extends AppCompatActivity {
                 call.enqueue(new Callback<UserDomain>() {
                     @Override
                     public void onResponse(Call<UserDomain> call, Response<UserDomain> response) {
-                        if(isFav) {
-                            binding.bookmark.setImageResource(R.drawable.bookmark);
-                            isFav = false;
-                        } else {
+                        isFav =false;
+                        for (ProductDomain product : response.body().getWishList()) {
+                            if(product.get_id().equals(object.get_id())){
+                                isFav = true;
+                            }
+                        }
+                        if (isFav) {
                             binding.bookmark.setImageResource(R.drawable.bookmark2);
-                            isFav = true;
+                        } else {
+                            binding.bookmark.setImageResource(R.drawable.bookmark);
                         }
                     }
 
@@ -97,7 +103,7 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ProductDomain> call, Response<ProductDomain> response) {
                 if (response.isSuccessful()) {
-                    ProductDomain object = response.body();
+                     object = response.body();
                     if (object != null) {
                         Glide.with(DetailActivity.this)
                                 .load(object.getImage().get(0).getImageUrl())

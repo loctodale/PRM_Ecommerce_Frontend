@@ -8,7 +8,7 @@ public class ProductDomain {
     private String name;
     private float price;
     private BrandDomain brand;
-    private String category;
+    private CategoryDomain category;
     private String description;
     private int quantitySold;
     private String origin;
@@ -16,7 +16,7 @@ public class ProductDomain {
     private boolean isDelete;
     private List<ImageDomain> images;
 
-    public ProductDomain(String name, float price, String category, String description, int quantitySold, String origin, String status, boolean isDelete) {
+    public ProductDomain(String name, float price, CategoryDomain category, String description, int quantitySold, String origin, String status, boolean isDelete) {
         this.name = name;
         this.price = price;
         this.category = category;
@@ -59,11 +59,11 @@ public class ProductDomain {
         this.brand = brand;
     }
 
-    public String getCategory() {
+    public CategoryDomain getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(CategoryDomain category) {
         this.category = category;
     }
 

@@ -10,15 +10,17 @@ public class UserDomain {
     private String name;
     private String address;
     private String phone;
+    private String googleId;
     private List<ProductDomain> wishList;
 
-    public UserDomain(String email, String username, String password, String name, String address, String phone, List<ProductDomain> wishList) {
+    public UserDomain(String email, String username, String password, String name, String address, String phone, String googleId, List<ProductDomain> wishList) {
         this.email = email;
         this.username = username;
         this.password = password;
         this.name = name;
         this.address = address;
         this.phone = phone;
+        this.googleId = googleId;
         this.wishList = wishList;
     }
 
@@ -80,6 +82,14 @@ public class UserDomain {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getGoogleId() {
+        return googleId;
+    }
+
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
     }
 
     public List<ProductDomain> getWishList() {

@@ -32,6 +32,10 @@
         <activity
             android:name=".Activity.ListItemInCategoryActivity"
             android:exported="false" />
+        <activity
+            android:name=".Activity.ChatActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="value"/>

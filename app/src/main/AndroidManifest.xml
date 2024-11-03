@@ -41,11 +41,14 @@
         <activity
             android:name=".Activity.ListItemInCategoryActivity"
             android:exported="false" />
+        <activity
+            android:name=".Activity.ChatActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyB7hU_FUGRuX7QQBduC1jrL1cZ68h1gzcY" />
-
+            android:value="value"/>
         <activity
             android:name=".Activity.AddAddressActivity"
             android:exported="false" />

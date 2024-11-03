@@ -23,6 +23,7 @@ import com.example.prm_ecommerce.R;
 import com.example.prm_ecommerce.databinding.ActivityMainBinding;
 import com.example.prm_ecommerce.domain.NotificationDomain;
 import com.example.prm_ecommerce.domain.ProductDomain;
+import com.google.firebase.FirebaseApp;
 
 import java.util.ArrayList;
 import java.util.concurrent.Executors;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         // ZaloPay SDK Init
         ZaloPaySDK.init(2553, Environment.SANDBOX);
         Pushy.listen(this);
+        FirebaseApp.initializeApp(this);
 
         ProductService = ProductRepository.getProductService();
         NotificationService = NotificationRepository.getNoticationService();
@@ -77,6 +79,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, NotificationActivity.class);
+                MainActivity.this.startActivity(intent);
+            }
+        });
+        binding.fabChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ChatActivity.class);
                 MainActivity.this.startActivity(intent);
             }
         });

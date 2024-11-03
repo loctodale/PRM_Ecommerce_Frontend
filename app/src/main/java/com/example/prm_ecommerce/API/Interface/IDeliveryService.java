@@ -1,5 +1,6 @@
 package com.example.prm_ecommerce.API.Interface;
 
+import com.example.prm_ecommerce.Model.DeliveryModel;
 import com.example.prm_ecommerce.domain.DeliveryDomain;
 import com.example.prm_ecommerce.domain.OrderDetailDomain;
 
@@ -12,13 +13,15 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface IDeliveryService {
-    String DELIVERY = "deliverys";
+    String DELIVERY = "delivery";
 
     @GET(DELIVERY)
     Call<DeliveryDomain[]> getAll();
 
     @GET(DELIVERY + "/{id}")
     Call<DeliveryDomain> getById(@Path("id")Object id);
+    @GET(DELIVERY + "/shipper/{shipperId}")
+    Call<DeliveryModel[]> getByShipperId(@Path("shipperId")Object shipperId);
 
     @GET(DELIVERY + "/order/{orderId}")
     Call<DeliveryDomain> getByOrderId(@Path("id")Object id);

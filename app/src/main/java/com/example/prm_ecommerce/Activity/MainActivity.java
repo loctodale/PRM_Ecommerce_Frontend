@@ -1,7 +1,9 @@
 package com.example.prm_ecommerce.Activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -30,6 +32,8 @@ import me.pushy.sdk.Pushy;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import vn.zalopay.sdk.Environment;
+import vn.zalopay.sdk.ZaloPaySDK;
 
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
@@ -38,6 +42,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StrictMode.ThreadPolicy policy = new
+                StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        // ZaloPay SDK Init
+        ZaloPaySDK.init(2553, Environment.SANDBOX);
         Pushy.listen(this);
         FirebaseApp.initializeApp(this);
 
@@ -129,7 +139,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, CartActivity.class);
-                intent.putExtra("userId", "6718be16b762285e2490aae2");
+                // Lưu thông tin đăng nhập
+                SharedPreferences sharedPreferences = getSharedPreferences("LogInInfo", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("UserId", "6718be16b762285e2490aae2");
+                editor.apply();
                 MainActivity.this.startActivity(intent);
             }
         });
@@ -138,6 +152,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, WishListActivity.class);
                 intent.putExtra("userId", "6718be16b762285e2490aae2");
+                MainActivity.this.startActivity(intent);
+            }
+        });
+        binding.myOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ListOrderOfUserActivity.class);
                 MainActivity.this.startActivity(intent);
             }
         });

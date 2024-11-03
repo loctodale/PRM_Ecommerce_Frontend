@@ -29,6 +29,7 @@ public class ManagementCart {
     public void clear(){
         tinyDB.clear();
     }
+
     public void insertItem(ItemCartDomain item) {
         ArrayList<ItemCartDomain> listpop = getListCart();
         boolean existAlready = false;
@@ -61,6 +62,7 @@ public class ManagementCart {
         }
         return fee;
     }
+
     public void minusNumberItem(ArrayList<ItemCartDomain> listItem,int position,ChangeNumberItemsListener changeNumberItemsListener){
         String userId = "6718be16b762285e2490aae2";
 

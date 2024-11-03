@@ -38,6 +38,10 @@ dependencies {
     implementation libs.material
     implementation libs.activity
     implementation libs.constraintlayout
+    implementation fileTree(dir: 'C:\\Users\\LENOVO\\Desktop\\ZaloPayLib', include: ['*.aar', '*.jar'], exclude: [])
+    implementation("com.squareup.okhttp3:okhttp:4.6.0")
+    implementation("commons-codec:commons-codec:1.14")
+
     implementation libs.firebase.auth
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
@@ -54,6 +58,7 @@ dependencies {
     implementation(libs.play.services.location)
     implementation(libs.play.services.maps)
     implementation 'me.pushy:sdk:1.0.120'
+    implementation 'com.android.volley:volley:1.2.1'
 
     //set up firebase auth
     implementation 'com.google.firebase:firebase-auth:23.1.0'

@@ -146,6 +146,13 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.startActivity(intent);
             }
         });
+        binding.myOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ListOrderOfUserActivity.class);
+                MainActivity.this.startActivity(intent);
+            }
+        });
     }
 
     private void statusBarColor() {

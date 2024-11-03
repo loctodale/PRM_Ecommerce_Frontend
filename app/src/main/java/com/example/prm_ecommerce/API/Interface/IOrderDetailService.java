@@ -19,6 +19,9 @@ public interface IOrderDetailService {
     @GET(ORDERDETAILS + "/{id}")
     Call<OrderDetailDomain> getById(@Path("id")Object id);
 
+    @GET(ORDERDETAILS + "/order/{id}")
+    Call<OrderDetailDomain[]> getByOrderId(@Path("id")Object id);
+
     @POST(ORDERDETAILS)
     Call<OrderDetailDomain> create(@Body OrderDetailDomain orderDetail);
 

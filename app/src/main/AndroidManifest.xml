@@ -24,6 +24,12 @@
         android:theme="@style/Theme.Prm_Ecommerce"
         tools:targetApi="31">
         <activity
+            android:name=".Activity.OrderDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.ListOrderOfUserActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.PaymentNotification"
             android:exported="false" />
         <activity
@@ -40,7 +46,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyB7hU_FUGRuX7QQBduC1jrL1cZ68h1gzcY" />
 
-            android:value="value"/>
         <activity
             android:name=".Activity.AddAddressActivity"
             android:exported="false" />
@@ -48,20 +53,18 @@
             android:name=".Activity.CartActivity"
             android:exported="true"
             android:label="Merchant Demo"
-            android:launchMode="singleTask"
-            >
+            android:launchMode="singleTask">
             <intent-filter>
-            <action android:name="android.intent.action.VIEW" />
-            <category android:name="android.intent.category.DEFAULT" />
-            <category android:name="android.intent.category.BROWSABLE" />
+                <action android:name="android.intent.action.VIEW" />
 
-            <data
-                android:host="app"
-                android:scheme="demozpdk" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="app"
+                    android:scheme="demozpdk" />
             </intent-filter>
-
         </activity>
-
         <activity
             android:name=".Activity.DetailActivity"
             android:exported="false" />

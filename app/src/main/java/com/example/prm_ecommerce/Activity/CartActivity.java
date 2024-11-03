@@ -96,7 +96,8 @@ public class CartActivity extends AppCompatActivity {
                 CreateOrder orderApi = new CreateOrder();
 
                 try {
-                    JSONObject data = orderApi.createOrder(totalString);
+//                    JSONObject data = orderApi.createOrder(totalString);
+                    JSONObject data = orderApi.createOrder("1000");
                     Log.d("CreateOrder", "Response Data: " + data.toString());
                     String code = data.getString("return_code");
 
@@ -165,16 +166,17 @@ public class CartActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<CartDomain> call, Response<CartDomain> response) {
                 managementCart.clear();
-
-                for (ItemInCartModel product : response.body().getProducts()) {
-                    managementCart.insertItem(new ItemCartDomain(
-                            product.getProduct().get_id(),
-                            product.getProduct().getName(),
-                            product.getProduct().getImage(),
-                            product.getQuantity(),
-                            product.getProduct().getPrice()));
+                if(response.body() != null && response.body().getProducts() != null){
+                    for (ItemInCartModel product : response.body().getProducts()) {
+                        managementCart.insertItem(new ItemCartDomain(
+                                product.getProduct().get_id(),
+                                product.getProduct().getName(),
+                                product.getProduct().getImage(),
+                                product.getQuantity(),
+                                product.getProduct().getPrice()));
+                    }
+                    calculatorCart();
                 }
-                calculatorCart();
             }
 
             @Override
@@ -190,15 +192,17 @@ public class CartActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<CartDomain> call, Response<CartDomain> response) {
                 ArrayList<ItemCartDomain> items = new ArrayList<>();
-
-                for (ItemInCartModel product : response.body().getProducts()) {
-                    items.add(new ItemCartDomain(
-                            product.getProduct().get_id(),
-                            product.getProduct().getName(),
-                            product.getProduct().getImage(),
-                            product.getQuantity(),
-                            product.getProduct().getPrice()));
+                if(response.body() != null && response.body().getProducts() != null){
+                    for (ItemInCartModel product : response.body().getProducts()) {
+                        items.add(new ItemCartDomain(
+                                product.getProduct().get_id(),
+                                product.getProduct().getName(),
+                                product.getProduct().getImage(),
+                                product.getQuantity(),
+                                product.getProduct().getPrice()));
+                    }
                 }
+
                 if (items.isEmpty()) {
                     binding.tvEmpty.setVisibility(View.VISIBLE);
                     binding.scroll.setVisibility(View.GONE);

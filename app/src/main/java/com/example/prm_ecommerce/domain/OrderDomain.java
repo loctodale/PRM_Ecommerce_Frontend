@@ -1,5 +1,6 @@
 package com.example.prm_ecommerce.domain;
 
+import java.util.Date;
 import java.util.List;
 
 public class OrderDomain {
@@ -10,11 +11,13 @@ public class OrderDomain {
     private String priceBeforeShip;
     private String totalPrice;
     private String status;
+    private Date date;
     private boolean isDeleted;
     private List<ProductDomain> products;
 
-    public OrderDomain(String cart, boolean isDeleted, String priceBeforeShip, List<ProductDomain> products, String status, String totalPrice, String user, String voucher) {
+    public OrderDomain(String cart, Date date, boolean isDeleted, String priceBeforeShip, List<ProductDomain> products, String status, String totalPrice, String user, String voucher) {
         this.cart = cart;
+        this.date = date;
         this.isDeleted = isDeleted;
         this.priceBeforeShip = priceBeforeShip;
         this.products = products;
@@ -38,6 +41,14 @@ public class OrderDomain {
 
     public void setCart(String cart) {
         this.cart = cart;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public boolean isDeleted() {

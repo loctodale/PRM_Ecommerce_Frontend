@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -49,7 +50,7 @@ public class PaymentNotification extends AppCompatActivity {
         Intent intent = getIntent();
         tvThongBao.setText(intent.getStringExtra("result"));
 
-        deleteCartByUserId();
+//        deleteCartByUserId();
 
         btnVeTrangChu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,6 +63,35 @@ public class PaymentNotification extends AppCompatActivity {
 
 
     private void deleteCartByUserId(){
+        Call<CartDomain> call = cartService.deleteCartByUserId(userId);
+        call.enqueue(new Callback<CartDomain>() {
+            @Override
+            public void onResponse(Call<CartDomain> call, Response<CartDomain> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(PaymentNotification.this, "Cart deleted successfully", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Hiển thị mã lỗi nếu không thành công
+                    Toast.makeText(PaymentNotification.this, "Failed Error code: " + response.code(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CartDomain> call, Throwable throwable) {
+                Toast.makeText(PaymentNotification.this, "Fail delete cart", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+    private void createOrder(){
+
+    }
+
+    private void createOrderDetail(){
+
+    }
+
+    private void createDelivery(){
 
     }
 }

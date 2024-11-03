@@ -32,4 +32,7 @@ public interface ICartService {
 
     @DELETE(CART + "/{id}")
     Call<CartDomain> deleteCart(@Path("id") Object id);
+
+    @POST(CART + "/user/{userId}")
+    Call<CartDomain> deleteCartByUserId(@Path("userId")Object userId);
 }

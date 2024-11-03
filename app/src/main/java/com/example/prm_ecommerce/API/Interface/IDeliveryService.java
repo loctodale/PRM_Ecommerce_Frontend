@@ -20,6 +20,9 @@ public interface IDeliveryService {
     @GET(DELIVERY + "/{id}")
     Call<DeliveryDomain> getById(@Path("id")Object id);
 
+    @GET(DELIVERY + "/order/{orderId}")
+    Call<DeliveryDomain> getByOrderId(@Path("id")Object id);
+
     @POST(DELIVERY)
     Call<DeliveryDomain> create(@Body DeliveryDomain delivery);
 

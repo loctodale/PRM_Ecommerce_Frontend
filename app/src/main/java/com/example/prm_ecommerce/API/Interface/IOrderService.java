@@ -20,6 +20,9 @@ public interface IOrderService {
     @GET(ORDERS + "/{id}")
     Call<OrderDomain> getById(@Path("id")Object id);
 
+    @GET(ORDERS + "/user/{userId}")
+    Call<OrderDomain[]> getOrderByUserId(@Path("id")Object userId);
+
     @POST(ORDERS)
     Call<OrderDomain> create(@Body OrderDomain order);
 

@@ -1,5 +1,6 @@
 package com.example.prm_ecommerce.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -38,7 +39,7 @@ public class DeliveryAdapter extends RecyclerView.Adapter<DeliveryAdapter.Viewho
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Viewholder holder, int position) {
+    public void onBindViewHolder(@NonNull Viewholder holder, @SuppressLint("RecyclerView") int position) {
         holder.binding.tvName.setText(deliveryList.get(position).getOrder().getUser().getName());
         holder.binding.tvPhone.setText(deliveryList.get(position).getOrder().getUser().getPhone());
         holder.binding.tvLocation.setText(deliveryList.get(position).getShippingLocation());
@@ -47,6 +48,8 @@ public class DeliveryAdapter extends RecyclerView.Adapter<DeliveryAdapter.Viewho
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, OpenStreetMapActivity.class);
+                intent.putExtra("longLoc", deliveryList.get(position).getLongLocation());
+                intent.putExtra("latLoc", deliveryList.get(position).getLatLocation());
                 context.startActivity(intent);
             }
         });

@@ -113,25 +113,32 @@ public class LoginActivity extends AppCompatActivity {
 
     private void LoginFireBase(String googleId, LoginCallback callback) {
 
-//        LoginRequest loginRequest = new LoginRequest(googleId);
-        Call<ResponseFirebaseDomain> call = userService.loginFirebase(googleId);
+        LoginRequest loginRequest = new LoginRequest(googleId);
+        Call<ResponseFirebaseDomain> call = userService.loginFirebase(loginRequest);
 
         call.enqueue(new Callback<ResponseFirebaseDomain>() {
             @Override
             public void onResponse(Call<ResponseFirebaseDomain> call, Response<ResponseFirebaseDomain> response) {
-                String userId = response.body().getUserId();
-                Log.d("LoginActivity", "LoginFirebase user_id: " + userId);
+                if (response.isSuccessful() && response.body() != null){
+                    String userId = response.body().getUserId();
+                    Log.d("LoginActivity", "LoginFirebase user_id: " + userId);
 
-                LoginSession.userId = userId;
+                    LoginSession.userId = userId;
 
-                // Save to SharedPreferences
-                SharedPreferences sharedPreferences = getSharedPreferences("user_data", MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("user_id", userId);
-                editor.apply();
+                    // Save to SharedPreferences
+                    SharedPreferences sharedPreferences = getSharedPreferences("user_data", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("user_id", userId);
+                    editor.apply();
 
-                // Callback success after Retrofit call is successful
-                callback.onLoginResult(true);
+                    // Callback success after Retrofit call is successful
+                    callback.onLoginResult(true);
+                }else {
+                    Log.d("LoginActivity", "LoginFirebase failed or response body is null");
+                    Toast.makeText(LoginActivity.this, "Login unsuccessful or empty response body", Toast.LENGTH_SHORT).show();
+                    callback.onLoginResult(false);
+                }
+
             }
 
             @Override

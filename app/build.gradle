@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.google.gms.google.services)
+    alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
 }
 
 android {
@@ -43,6 +44,7 @@ dependencies {
     implementation("commons-codec:commons-codec:1.14")
 
     implementation libs.firebase.auth
+    implementation fileTree(dir: 'D:\\github.com\\ZaloPayLib', include: ['*.aar', '*.jar'], exclude: [])
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
@@ -65,7 +67,10 @@ dependencies {
     //set up firestore
     implementation platform('com.google.firebase:firebase-bom:32.7.0')
     implementation 'com.google.firebase:firebase-firestore:25.1.1'
+    // set up direction
+    implementation 'com.github.dangiashish:Google-Direction-Api:1.6'
 
+    implementation 'org.osmdroid:osmdroid-android:6.1.10'
 }
 
 // Apply the Google services plugin for Firebase

@@ -6,12 +6,16 @@ public class DeliveryDomain {
     private String userId;
     private String shippingLocation;
     private int shippingFee;
+    private String latLocation;
+    private String longLocation;
 
-    public DeliveryDomain(String orderId, int shippingFee, String shippingLocation, String userId) {
+    public DeliveryDomain(String orderId, String userId, String shippingLocation, int shippingFee, String latLocation, String longLocation) {
         this.orderId = orderId;
-        this.shippingFee = shippingFee;
-        this.shippingLocation = shippingLocation;
         this.userId = userId;
+        this.shippingLocation = shippingLocation;
+        this.shippingFee = shippingFee;
+        this.latLocation = latLocation;
+        this.longLocation = longLocation;
     }
 
     public String get_id() {
@@ -30,12 +34,12 @@ public class DeliveryDomain {
         this.orderId = orderId;
     }
 
-    public int getShippingFee() {
-        return shippingFee;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setShippingFee(int shippingFee) {
-        this.shippingFee = shippingFee;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getShippingLocation() {
@@ -46,11 +50,27 @@ public class DeliveryDomain {
         this.shippingLocation = shippingLocation;
     }
 
-    public String getUserId() {
-        return userId;
+    public int getShippingFee() {
+        return shippingFee;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setShippingFee(int shippingFee) {
+        this.shippingFee = shippingFee;
+    }
+
+    public String getLatLocation() {
+        return latLocation;
+    }
+
+    public void setLatLocation(String latLocation) {
+        this.latLocation = latLocation;
+    }
+
+    public String getLongLocation() {
+        return longLocation;
+    }
+
+    public void setLongLocation(String longLocation) {
+        this.longLocation = longLocation;
     }
 }

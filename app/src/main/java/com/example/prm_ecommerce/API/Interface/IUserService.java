@@ -37,5 +37,5 @@ public interface IUserService {
     Call<UserDomain> registerFirebase(@Body UserDomain user);
 
     @POST("auth/loginFirebase")
-    Call<ResponseFirebaseDomain> loginFirebase(@Body String googleId);
+    Call<ResponseFirebaseDomain> loginFirebase(@Body LoginRequest request);
 }

@@ -39,12 +39,13 @@ dependencies {
     implementation libs.material
     implementation libs.activity
     implementation libs.constraintlayout
-    implementation fileTree(dir: 'C:\\Users\\LENOVO\\Desktop\\ZaloPayLib', include: ['*.aar', '*.jar'], exclude: [])
+//    implementation fileTree(dir: 'C:\\Users\\LENOVO\\Desktop\\ZaloPayLib', include: ['*.aar', '*.jar'], exclude: [])
     implementation("com.squareup.okhttp3:okhttp:4.6.0")
     implementation("commons-codec:commons-codec:1.14")
 
     implementation libs.firebase.auth
-    implementation fileTree(dir: 'D:\\github.com\\ZaloPayLib', include: ['*.aar', '*.jar'], exclude: [])
+    implementation fileTree(dir: 'C:\\Users\\LENOVO\\Desktop\\ZaloPayLib', include: ['*.aar', '*.jar'], exclude: [])
+//    implementation fileTree(dir: 'D:\\github.com\\ZaloPayLib', include: ['*.aar', '*.jar'], exclude: [])
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core

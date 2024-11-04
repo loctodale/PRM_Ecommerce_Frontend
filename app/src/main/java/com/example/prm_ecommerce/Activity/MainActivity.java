@@ -24,7 +24,7 @@ import com.example.prm_ecommerce.R;
 import com.example.prm_ecommerce.databinding.ActivityMainBinding;
 import com.example.prm_ecommerce.domain.NotificationDomain;
 import com.example.prm_ecommerce.domain.ProductDomain;
-import com.google.firebase.FirebaseApp;
+//import com.google.firebase.FirebaseApp;
 
 import java.util.ArrayList;
 import java.util.concurrent.Executors;
@@ -33,8 +33,8 @@ import me.pushy.sdk.Pushy;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-/*import vn.zalopay.sdk.Environment;
-import vn.zalopay.sdk.ZaloPaySDK;*/
+import vn.zalopay.sdk.Environment;
+import vn.zalopay.sdk.ZaloPaySDK;
 
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
@@ -49,9 +49,9 @@ public class MainActivity extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
 
         // ZaloPay SDK Init
-/*        ZaloPaySDK.init(2553, Environment.SANDBOX);*/
+        ZaloPaySDK.init(2553, Environment.SANDBOX);
         Pushy.listen(this);
-        FirebaseApp.initializeApp(this);
+//        FirebaseApp.initializeApp(this);
 
         ProductService = ProductRepository.getProductService();
         NotificationService = NotificationRepository.getNoticationService();
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         categoryNavigation();
         bottomNavigation();
         controlNavigation();
-        loginOrProfileSwitch();
+//        loginOrProfileSwitch();
         // Register for Pushy notifications
         new RegisterForPushNotificationsAsync(this).execute();
 

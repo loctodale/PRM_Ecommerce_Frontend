@@ -44,7 +44,7 @@ public class ListOrderAdapter extends RecyclerView.Adapter<ListOrderAdapter.View
 
         binding.tvDate.setText(formattedDate);
         binding.tvStatus.setText(item.get(position).getStatus());
-        binding.tvTotal.setText(item.get(position).getTotalPrice());
+        binding.tvTotal.setText(String.valueOf(item.get(position).getTotalPrice()));
         binding.tvDate.setText(formattedDate);
 
         holder.itemView.setOnClickListener(v -> {

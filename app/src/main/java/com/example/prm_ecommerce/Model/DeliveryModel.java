@@ -7,13 +7,17 @@ public class DeliveryModel {
     private String shippingLocation;
     private String shippingFee;
     private String status;
+    private String latLocation;
+    private String longLocation;
 
-    public DeliveryModel(OrderModel order, String shipper, String shippingLocation, String shippingFee, String status) {
+    public DeliveryModel(OrderModel order, String shipper, String shippingLocation, String shippingFee, String status, String latLocation, String longLocation) {
         this.order = order;
         this.shipper = shipper;
         this.shippingLocation = shippingLocation;
         this.shippingFee = shippingFee;
         this.status = status;
+        this.latLocation = latLocation;
+        this.longLocation = longLocation;
     }
 
     public String get_id() {
@@ -62,6 +66,22 @@ public class DeliveryModel {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getLatLocation() {
+        return latLocation;
+    }
+
+    public void setLatLocation(String latLocation) {
+        this.latLocation = latLocation;
+    }
+
+    public String getLongLocation() {
+        return longLocation;
+    }
+
+    public void setLongLocation(String longLocation) {
+        this.longLocation = longLocation;
     }
 }
 

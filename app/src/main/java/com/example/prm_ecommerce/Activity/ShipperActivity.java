@@ -1,7 +1,9 @@
 package com.example.prm_ecommerce.Activity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,6 +38,20 @@ public class ShipperActivity extends AppCompatActivity {
         userId = sharedPreferences.getString("user_id", null);
         DeliveryService = DeliveryRepository.getService();
         initRecycleView();
+
+        binding.backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        binding.refreshBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initRecycleView();
+            }
+        });
 
     }
 

@@ -41,10 +41,10 @@ import java.util.Currency;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import vn.zalopay.sdk.Environment;
+/*import vn.zalopay.sdk.Environment;
 import vn.zalopay.sdk.ZaloPayError;
 import vn.zalopay.sdk.ZaloPaySDK;
-import vn.zalopay.sdk.listeners.PayOrderListener;
+import vn.zalopay.sdk.listeners.PayOrderListener;*/
 
 public class CartActivity extends AppCompatActivity {
     private ManagementCart managementCart;
@@ -89,7 +89,7 @@ public class CartActivity extends AppCompatActivity {
             }
         });
 
-        btnOrder.setOnClickListener(new View.OnClickListener() {
+     /*   btnOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(CartActivity.this, "click", Toast.LENGTH_SHORT).show();
@@ -133,7 +133,7 @@ public class CartActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-        });
+        });*/
     }
 
     private void setAddressAndDeliveryFee(){
@@ -246,12 +246,12 @@ public class CartActivity extends AppCompatActivity {
         binding.backBtn.setOnClickListener(v -> finish());
     }
 
-    @Override
-    protected void onNewIntent(@NonNull Intent intent) {
+  /*  @Override*/
+ /*   protected void onNewIntent(@NonNull Intent intent) {
         super.onNewIntent(intent);
         ZaloPaySDK.getInstance().onResult(intent);
 
         setIntent(intent); // Cập nhật Intent mới
         setAddressAndDeliveryFee();
-    }
+    }*/
 }

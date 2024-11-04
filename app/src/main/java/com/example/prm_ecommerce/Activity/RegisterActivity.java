@@ -3,6 +3,7 @@ package com.example.prm_ecommerce.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -16,15 +17,23 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.prm_ecommerce.API.Interface.IUserService;
+import com.example.prm_ecommerce.API.Repository.UserRepository;
 import com.example.prm_ecommerce.R;
+import com.example.prm_ecommerce.domain.UserDomain;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class RegisterActivity extends AppCompatActivity {
 
+    IUserService userService;
     EditText edFullName,edEmail,edDob,edMobile,edPassword,edConfirmPwd;
     private ProgressBar progressBar;
     private RadioGroup radioGroupRegisterGender;
@@ -35,7 +44,8 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-
+//Api
+        userService = UserRepository.getUserService();
         //edit text for information
         Toast.makeText(RegisterActivity.this, "You can register now", Toast.LENGTH_SHORT).show();
         progressBar = findViewById(R.id.progressBar);
@@ -49,7 +59,15 @@ public class RegisterActivity extends AppCompatActivity {
         //radioButton for Gender
         radioGroupRegisterGender = findViewById(R.id.radio_group_register_gender);
         radioGroupRegisterGender.clearCheck();
-
+        Button buttonCancel = findViewById(R.id.button_cancel);
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
         Button buttonRegister = findViewById(R.id.button_register);
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,19 +147,43 @@ public class RegisterActivity extends AppCompatActivity {
                         if(task.isSuccessful()){
                             Toast.makeText(RegisterActivity.this, "User registered successfully", Toast.LENGTH_SHORT).show();
                             FirebaseUser firebaseUser = auth.getCurrentUser();
-
+                            //dang ky user firebase
+                            String googleId = firebaseUser.getUid();
+                            CreateUser( Email, Phone, fullname,googleId);
                             //Send Verification Email
                             firebaseUser.sendEmailVerification();
-
-                       /*     //Open User Profile after successful registration
-                            Intent intent = new Intent(RegisterActivity.this, UserProfileActitvity.class);
-                            //To Prevent User returning  back to Register Activity on pressing back button after registration
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent);
-                            finish(); // to close all activity*/
+                            NavigateLogin();
                         }
                     }
                 }
         );
+    }
+
+    private void NavigateLogin(){
+        Intent intent = new Intent(RegisterActivity.this , LoginActivity.class);
+        startActivity(intent);
+    }
+
+    public void CreateUser(String Email,String Phone,String name, String googleId){
+         UserDomain userDomain = new UserDomain(googleId,Email,name,Phone);
+         Call<UserDomain> call = userService.registerFirebase(userDomain);
+         try {
+             call.enqueue(new Callback<UserDomain>() {
+                 @Override
+                 public void onResponse(Call<UserDomain> call, Response<UserDomain> response) {
+                     if(response.body() != null){
+                         Toast.makeText(RegisterActivity.this, "Register sucess", Toast.LENGTH_SHORT).show();
+                     }
+                 }
+
+                 @Override
+                 public void onFailure(Call<UserDomain> call, Throwable throwable) {
+                     Toast.makeText(RegisterActivity.this, "Register fail", Toast.LENGTH_SHORT).show();
+                     Log.w("MyTag", "requestFailed", throwable);
+                 }
+             });
+         }catch (Exception ex){
+             Log.w("MyTag", "requestFailed");
+         }
     }
 }

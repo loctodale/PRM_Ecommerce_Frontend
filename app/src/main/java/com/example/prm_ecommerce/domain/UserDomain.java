@@ -23,6 +23,15 @@ public class UserDomain {
         this.googleId = googleId;
         this.wishList = wishList;
     }
+    public UserDomain(String googleId,String email,String name, String phone){
+        this.email = email;
+        this.name = name;
+        this.phone = phone;
+        this.googleId = googleId;
+    }
+    public UserDomain(){
+
+    }
 
     public String get_id() {
         return _id;

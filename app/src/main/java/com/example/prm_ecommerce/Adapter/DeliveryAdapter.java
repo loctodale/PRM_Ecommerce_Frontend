@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prm_ecommerce.API.Interface.IDeliveryService;
 import com.example.prm_ecommerce.Activity.MapDirectionActivity;
+import com.example.prm_ecommerce.Activity.OpenStreetMapActivity;
 import com.example.prm_ecommerce.Model.DeliveryModel;
 import com.example.prm_ecommerce.databinding.ViewholderDeliveryBinding;
 import com.example.prm_ecommerce.databinding.ViewholderNotificationBinding;
@@ -45,7 +46,7 @@ public class DeliveryAdapter extends RecyclerView.Adapter<DeliveryAdapter.Viewho
         holder.binding.pic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, MapDirectionActivity.class);
+                Intent intent = new Intent(context, OpenStreetMapActivity.class);
                 context.startActivity(intent);
             }
         });

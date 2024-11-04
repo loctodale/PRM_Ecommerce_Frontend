@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     IProductService ProductService;
     INotificationService NotificationService;
+    String userId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
         ProductService = ProductRepository.getProductService();
         NotificationService = NotificationRepository.getNoticationService();
         binding = ActivityMainBinding.inflate(getLayoutInflater());
+        SharedPreferences sharedPreferences = getSharedPreferences("user_data", MODE_PRIVATE);
+        userId = sharedPreferences.getString("user_id", null);
         setContentView(binding.getRoot());
         statusBarColor();
         initRecyclerView();
@@ -171,7 +174,9 @@ public class MainActivity extends AppCompatActivity {
                 // Lưu thông tin đăng nhập
                 SharedPreferences sharedPreferences = getSharedPreferences("LogInInfo", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("UserId", "6718be16b762285e2490aae2");
+
+
+                editor.putString("UserId", userId);
                 editor.apply();
                 MainActivity.this.startActivity(intent);
             }
@@ -180,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, WishListActivity.class);
-                intent.putExtra("userId", "6718be16b762285e2490aae2");
+                intent.putExtra("userId", userId);
                 MainActivity.this.startActivity(intent);
             }
         });
@@ -204,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void callUnseenNotification() {
-        Call<NotificationDomain[]> call = NotificationService.getUnseenNotification("6718be16b762285e2490aae2");
+        Call<NotificationDomain[]> call = NotificationService.getUnseenNotification(userId);
         call.enqueue(new Callback<NotificationDomain[]>() {
             @Override
             public void onResponse(Call<NotificationDomain[]> call, Response<NotificationDomain[]> response) {

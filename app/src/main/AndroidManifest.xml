@@ -24,6 +24,9 @@
         android:theme="@style/Theme.Prm_Ecommerce"
         tools:targetApi="31">
         <activity
+            android:name=".Activity.DeliveryDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.OrderDetailActivity"
             android:exported="false" />
         <activity
@@ -48,7 +51,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="key"/>
+            android:value="value"/>
         <activity
             android:name=".Activity.AddAddressActivity"
             android:exported="false" />
@@ -75,6 +78,12 @@
             android:name=".Activity.RegisterActivity"
             android:exported="false" />
         <activity
+            android:name=".Activity.ShipperActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.OpenStreetMapActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.LoginActivity"
             android:exported="false" />
         <activity
@@ -86,15 +95,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Activity.ShipperActivity"
-            android:exported="false">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-        </activity> <!-- Pushy Declarations -->
+         <!-- Pushy Declarations -->
         <!-- Pushy Notification Receiver -->
         <!-- Incoming push notifications will invoke the following BroadcastReceiver -->
         <receiver

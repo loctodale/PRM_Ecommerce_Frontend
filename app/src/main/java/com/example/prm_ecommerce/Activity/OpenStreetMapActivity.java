@@ -1,5 +1,6 @@
 package com.example.prm_ecommerce.Activity;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -14,6 +15,7 @@ import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polyline;
 
 import me.pushy.sdk.BuildConfig;
@@ -28,7 +30,8 @@ import java.io.IOException;
 public class OpenStreetMapActivity extends AppCompatActivity {
     private MapView map;
     private OkHttpClient client;
-
+    private double LongLoc;
+    private double LatLoc;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +39,8 @@ public class OpenStreetMapActivity extends AppCompatActivity {
         Configuration.getInstance().load(getApplicationContext(), PreferenceManager.getDefaultSharedPreferences(this));
         Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
         setContentView(R.layout.activity_open_street_map);
-
+        LongLoc = Double.parseDouble((String) getIntent().getSerializableExtra("longLoc"));
+        LatLoc = Double.parseDouble((String) getIntent().getSerializableExtra("latLoc"));
         map = findViewById(R.id.mapView);
         map.setTileSource(TileSourceFactory.MAPNIK);
         map.setTileSource(TileSourceFactory.DEFAULT_TILE_SOURCE);
@@ -50,7 +54,7 @@ public class OpenStreetMapActivity extends AppCompatActivity {
         client = new OkHttpClient();
 
         // Call the method to fetch route and display it
-        fetchRouteAndDisplay(10.8751365, 106.7981484 , 10.8411329, 106.8073081); // Sample coordinates (San Francisco to Los Angeles)
+        fetchRouteAndDisplay(10.8751365, 106.7981484 , LongLoc, LatLoc); // Sample coordinates (San Francisco to Los Angeles)
     }
 
 
@@ -76,7 +80,10 @@ public class OpenStreetMapActivity extends AppCompatActivity {
 
                     displayRouteOnMap(jsonResponse);
                     // Call displayRouteOnMap() on the main thread
-                    runOnUiThread(() -> displayRouteOnMap(jsonResponse));
+                    runOnUiThread(() -> {
+                        displayRouteOnMap(jsonResponse);
+                        addMarkers(startLon,startLat , endLon, endLat);
+                    });
                 }
             }
         });
@@ -109,5 +116,28 @@ public class OpenStreetMapActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void addMarkers(double startLat, double startLon, double endLat, double endLon) {
+        // Create a marker for the starting point
+        Marker startMarker = new Marker(map);
+        startMarker.setPosition(new GeoPoint(startLat, startLon));
+//        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+        startMarker.setIcon(getResources().getDrawable(R.drawable.ic_send));
+        startMarker.setTitle("Start Point");
+        map.getOverlays().add(startMarker);
+
+        // Create a marker for the ending point
+        Marker endMarker = new Marker(map);
+        endMarker.setPosition(new GeoPoint(endLat, endLon));
+        endMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+        endMarker.setTitle("End Point");
+        map.getOverlays().add(endMarker);
+
+        // Optionally, center the map on the starting point with a suitable zoom level
+        map.getController().setZoom(14.0);
+        map.getController().setCenter(new GeoPoint(startLat, startLon));
+
+        map.invalidate(); // Refresh the map to show the markers
     }
 }

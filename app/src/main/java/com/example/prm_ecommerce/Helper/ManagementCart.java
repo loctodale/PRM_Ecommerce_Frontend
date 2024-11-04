@@ -54,13 +54,13 @@ public class ManagementCart {
         return tinyDB.getListObject("CartList");
     }
 
-    public Double getTotalFee(){
+    public int getTotalFee(){
         ArrayList<ItemCartDomain> listItem=getListCart();
         double fee=0;
         for (int i = 0; i < listItem.size(); i++) {
             fee=fee+(listItem.get(i).getPrice()*listItem.get(i).getNumberInCart());
         }
-        return fee;
+        return (int)fee;
     }
 
     public void minusNumberItem(ArrayList<ItemCartDomain> listItem,int position,ChangeNumberItemsListener changeNumberItemsListener){

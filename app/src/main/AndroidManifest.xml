@@ -48,7 +48,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="value"/>
+            android:value="AIzaSyB7hU_FUGRuX7QQBduC1jrL1cZ68h1gzcY"/>
         <activity
             android:name=".Activity.AddAddressActivity"
             android:exported="false" />

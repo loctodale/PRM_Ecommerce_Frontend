@@ -3,6 +3,7 @@ package com.example.prm_ecommerce.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -28,7 +29,6 @@ public class PaymentNotification extends AppCompatActivity {
     TextView tvThongBao;
     Button btnVeTrangChu;
     String userId;
-    private ICartService cartService;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +42,6 @@ public class PaymentNotification extends AppCompatActivity {
 
         tvThongBao = findViewById(R.id.tvThongBao);
         btnVeTrangChu =findViewById(R.id.btnVeTrangChu);
-        cartService = CartRepository.getCartService();
 
         SharedPreferences sharedPreferences = getSharedPreferences("LogInInfo", MODE_PRIVATE);
         userId = sharedPreferences.getString("UserId", null);
@@ -50,7 +49,6 @@ public class PaymentNotification extends AppCompatActivity {
         Intent intent = getIntent();
         tvThongBao.setText(intent.getStringExtra("result"));
 
-//        deleteCartByUserId();
 
         btnVeTrangChu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,36 +60,7 @@ public class PaymentNotification extends AppCompatActivity {
     }
 
 
-    private void deleteCartByUserId(){
-        Call<CartDomain> call = cartService.deleteCartByUserId(userId);
-        call.enqueue(new Callback<CartDomain>() {
-            @Override
-            public void onResponse(Call<CartDomain> call, Response<CartDomain> response) {
-                if (response.isSuccessful()) {
-                    Toast.makeText(PaymentNotification.this, "Cart deleted successfully", Toast.LENGTH_SHORT).show();
-                } else {
-                    // Hiển thị mã lỗi nếu không thành công
-                    Toast.makeText(PaymentNotification.this, "Failed Error code: " + response.code(), Toast.LENGTH_SHORT).show();
-                }
-            }
 
-            @Override
-            public void onFailure(Call<CartDomain> call, Throwable throwable) {
-                Toast.makeText(PaymentNotification.this, "Fail delete cart", Toast.LENGTH_SHORT).show();
 
-            }
-        });
-    }
 
-    private void createOrder(){
-
-    }
-
-    private void createOrderDetail(){
-
-    }
-
-    private void createDelivery(){
-
-    }
 }

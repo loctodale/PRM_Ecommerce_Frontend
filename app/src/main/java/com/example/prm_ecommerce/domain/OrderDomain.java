@@ -8,14 +8,15 @@ public class OrderDomain {
     private String user;
     private String cart;
     private String voucher;
-    private String priceBeforeShip;
-    private String totalPrice;
+    private int priceBeforeShip;
+    private int totalPrice;
     private String status;
     private Date date;
     private boolean isDeleted;
     private List<ProductDomain> products;
 
-    public OrderDomain(String cart, Date date, boolean isDeleted, String priceBeforeShip, List<ProductDomain> products, String status, String totalPrice, String user, String voucher) {
+
+    public OrderDomain(String cart, Date date, boolean isDeleted, int priceBeforeShip, List<ProductDomain> products, String status, int totalPrice, String user, String voucher) {
         this.cart = cart;
         this.date = date;
         this.isDeleted = isDeleted;
@@ -59,11 +60,11 @@ public class OrderDomain {
         isDeleted = deleted;
     }
 
-    public String getPriceBeforeShip() {
+    public int getPriceBeforeShip() {
         return priceBeforeShip;
     }
 
-    public void setPriceBeforeShip(String priceBeforeShip) {
+    public void setPriceBeforeShip(int priceBeforeShip) {
         this.priceBeforeShip = priceBeforeShip;
     }
 
@@ -83,11 +84,11 @@ public class OrderDomain {
         this.status = status;
     }
 
-    public String getTotalPrice() {
+    public int getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(String totalPrice) {
+    public void setTotalPrice(int totalPrice) {
         this.totalPrice = totalPrice;
     }
 

@@ -1,28 +1,24 @@
 package com.example.prm_ecommerce.Activity;
 
 import android.content.SharedPreferences;
-import android.health.connect.datatypes.units.Length;
+
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.EditText;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.prm_ecommerce.API.Interface.ICartService;
 import com.example.prm_ecommerce.API.Interface.IUserService;
 import com.example.prm_ecommerce.API.Repository.UserRepository;
 import com.example.prm_ecommerce.Model.LoginSession;
 import com.example.prm_ecommerce.R;
-import com.example.prm_ecommerce.domain.CartDomain;
+
 import com.example.prm_ecommerce.domain.UserDomain;
 
-import java.io.IOException;
 
-import okhttp3.Request;
-import okio.Timeout;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

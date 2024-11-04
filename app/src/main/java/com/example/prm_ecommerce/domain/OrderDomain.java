@@ -15,7 +15,9 @@ public class OrderDomain {
     private boolean isDeleted;
     private List<ProductDomain> products;
 
+    public OrderDomain(){
 
+    }
     public OrderDomain(String cart, Date date, boolean isDeleted, int priceBeforeShip, List<ProductDomain> products, String status, int totalPrice, String user, String voucher) {
         this.cart = cart;
         this.date = date;

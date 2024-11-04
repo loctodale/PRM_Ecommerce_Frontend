@@ -7,17 +7,12 @@ import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ImageView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.prm_ecommerce.API.CreateOrder;
@@ -82,9 +77,10 @@ public class CartActivity extends AppCompatActivity {
     String address;
     String deliveryFee;
     String totalString;
+    String LONG;
+    String LAT;
     int delivery = 0;
 
-    OrderDomain order;
     OrderDetailDomain orderDetailDomain;
     List<ProductDomain> productDomainList = new ArrayList<>();
 
@@ -97,7 +93,7 @@ public class CartActivity extends AppCompatActivity {
         OrderDetailService = OrderDetailRepository.getService();
 
         managementCart = new ManagementCart(this);
-//        userId = (String) getIntent().getSerializableExtra("userId");
+
         SharedPreferences sharedPreferences = getSharedPreferences("LogInInfo", MODE_PRIVATE);
         userId = sharedPreferences.getString("UserId", null);
         addSampleProducts();
@@ -129,7 +125,7 @@ public class CartActivity extends AppCompatActivity {
                 try {
 //                    JSONObject data = orderApi.createOrder(totalString);
                     JSONObject data = orderApi.createOrder("1000");
-                    Log.d("CreateOrder", "Response Data: " + data.toString());
+//                    Log.d("CreateOrder", "Response Data: " + data.toString());
                     String code = data.getString("return_code");
 
                     if (code.equals("1")) {
@@ -140,8 +136,8 @@ public class CartActivity extends AppCompatActivity {
 //                                deleteCartByUserId();
                                 getProductList();
 //                                createOrder();
-                                createOrderDetail();
-                                createDelivery();
+//                                createOrderDetail();
+//                                createDelivery();
                                 Intent intent1 = new Intent(CartActivity.this, PaymentNotification.class);
                                 intent1.putExtra("result", "Thanh toan thanh cong");
                                 startActivity(intent1);
@@ -175,6 +171,8 @@ public class CartActivity extends AppCompatActivity {
     private void setAddressAndDeliveryFee(){
         String getAddress = getIntent().getStringExtra("ADDRESS");
         String getFee = getIntent().getStringExtra("DELIVERY_FEE");
+        LONG = getIntent().getStringExtra("LONG");
+        LAT = getIntent().getStringExtra("LAT");
 
         if (getAddress!=null && getFee!=null){
             address = getAddress;
@@ -282,7 +280,6 @@ public class CartActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<CartDomain> call, Response<CartDomain> response) {
                 if (response.isSuccessful()) {
-
                     managementCart.clear();
                     Log.d("ResponseThu", response.toString() );
 
@@ -295,18 +292,7 @@ public class CartActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<CartDomain> call, Throwable throwable) {
-//                Toast.makeText(CartActivity.this, "Fail delete cart ", Toast.LENGTH_SHORT).show();
-//                Log.d("Error", throwable.getMessage());
-                // Ghi lại thông điệp lỗi
-                Log.e("API Error", "Error message: " + throwable.getMessage());
-
-                // Nếu throwable là một IOException, bạn có thể muốn ghi lại nguyên nhân
-                if (throwable instanceof IOException) {
-                    Log.e("API Error", "Network Error: " + throwable.getMessage());
-                }
-
-                // Hiển thị một thông báo cho người dùng
-                Toast.makeText(CartActivity.this, "Fail delete cart: " + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(CartActivity.this, "Fail delete cart ", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -327,6 +313,7 @@ public class CartActivity extends AppCompatActivity {
                     if (loadedCount[0] == productCount) {
                         createOrder(); // Gọi hàm tạo đơn hàng
                     }
+
                 }
 
                 @Override
@@ -356,7 +343,12 @@ public class CartActivity extends AppCompatActivity {
         call.enqueue(new Callback<OrderDomain>() {
             @Override
             public void onResponse(Call<OrderDomain> call, Response<OrderDomain> response) {
-                order[0] = response.body();
+                OrderDomain orderDomain = response.body();
+                if(orderDomain!=null){
+                    createOrderDetail(orderDomain);
+                    createDelivery(orderDomain);
+                }
+
                 Toast.makeText(CartActivity.this, "Create order success", Toast.LENGTH_SHORT).show();
             }
 
@@ -367,23 +359,41 @@ public class CartActivity extends AppCompatActivity {
         });
     }
 
-    private void createOrderDetail(){
-        for(ItemCartDomain item: managementCart.getListCart()){
-            Call<OrderDetailDomain> call = OrderDetailService.create(new OrderDetailDomain(order.get_id(), item.getId(),
-                                                                item.getNumberInCart(), ((int) item.getPrice())*item.getNumberInCart(),
-                                                                (int)item.getPrice()));
+    private void createOrderDetail(OrderDomain orderDomain){
+        if (managementCart!=null){
+            for(ItemCartDomain item: managementCart.getListCart()){
+                OrderDetailDomain orderDetailDomain = new OrderDetailDomain(orderDomain.get_id(), item.getId(),
+                        item.getNumberInCart(), ((int) item.getPrice())*item.getNumberInCart(),
+                        (int)item.getPrice());
+                Call<OrderDetailDomain> call = OrderDetailService.create(orderDetailDomain);
+
+                call.enqueue(new Callback<OrderDetailDomain>() {
+                    @Override
+                    public void onResponse(Call<OrderDetailDomain> call, Response<OrderDetailDomain> response) {
+                        Log.d("Order detail", response.body().get_id());
+                    }
+
+                    @Override
+                    public void onFailure(Call<OrderDetailDomain> call, Throwable throwable) {
+                        Log.d("Order detail fail", "");
+
+                    }
+                });
+            }
         }
+
     }
 
-    private void createDelivery(){
-        DeliveryDomain deliveryDomain = new DeliveryDomain(order.get_id(),Integer.valueOf(tvDeliveryFee.getText().toString()),
-                                                            tvAddress.getText().toString(), userId);
+    private void createDelivery(OrderDomain orderDomain){
+        DeliveryDomain deliveryDomain = new DeliveryDomain(LONG, LAT, orderDomain.get_id(), null,
+                Integer.valueOf(tvDeliveryFee.getText().toString()), tvAddress.getText().toString(), "Not yet");
 
         Call<DeliveryDomain> call = DeliveryService.create(deliveryDomain);
         call.enqueue(new Callback<DeliveryDomain>() {
             @Override
             public void onResponse(Call<DeliveryDomain> call, Response<DeliveryDomain> response) {
                 Toast.makeText(CartActivity.this, "Create delivery success", Toast.LENGTH_SHORT).show();
+                Log.d("Delivery", response.body().get_id());
             }
 
             @Override

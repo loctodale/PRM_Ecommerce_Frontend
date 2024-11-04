@@ -93,7 +93,8 @@ public class AddAddressActivity extends AppCompatActivity implements OnMapReadyC
         Intent intent = new Intent(AddAddressActivity.this, CartActivity.class);
         intent.putExtra("ADDRESS", address); // Truyền địa chỉ
         intent.putExtra("DELIVERY_FEE", shippingFee); // Truyền phí ship
-
+        intent.putExtra("LONG", end_longtitude);
+        intent.putExtra("LAT", end_latitude);
         startActivity(intent); // Khởi chạy CartActivity
         finish(); // Kết thúc AddAddressActivity nếu không cần quay lại
     }

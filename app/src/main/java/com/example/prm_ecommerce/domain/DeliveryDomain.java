@@ -2,20 +2,22 @@ package com.example.prm_ecommerce.domain;
 
 public class DeliveryDomain {
     private String _id;
-    private String orderId;
-    private String userId;
+    private String order;
+    private String shipper;
     private String shippingLocation;
     private int shippingFee;
     private String latLocation;
     private String longLocation;
+    private String status;
 
-    public DeliveryDomain(String orderId, String userId, String shippingLocation, int shippingFee, String latLocation, String longLocation) {
-        this.orderId = orderId;
-        this.userId = userId;
-        this.shippingLocation = shippingLocation;
-        this.shippingFee = shippingFee;
+    public DeliveryDomain(String latLocation, String longLocation, String order, String shipper, int shippingFee, String shippingLocation, String status) {
         this.latLocation = latLocation;
         this.longLocation = longLocation;
+        this.order = order;
+        this.shipper = shipper;
+        this.shippingFee = shippingFee;
+        this.shippingLocation = shippingLocation;
+        this.status = status;
     }
 
     public String get_id() {
@@ -24,38 +26,6 @@ public class DeliveryDomain {
 
     public void set_id(String _id) {
         this._id = _id;
-    }
-
-    public String getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getShippingLocation() {
-        return shippingLocation;
-    }
-
-    public void setShippingLocation(String shippingLocation) {
-        this.shippingLocation = shippingLocation;
-    }
-
-    public int getShippingFee() {
-        return shippingFee;
-    }
-
-    public void setShippingFee(int shippingFee) {
-        this.shippingFee = shippingFee;
     }
 
     public String getLatLocation() {
@@ -72,5 +42,45 @@ public class DeliveryDomain {
 
     public void setLongLocation(String longLocation) {
         this.longLocation = longLocation;
+    }
+
+    public String getOrder() {
+        return order;
+    }
+
+    public void setOrder(String order) {
+        this.order = order;
+    }
+
+    public String getShipper() {
+        return shipper;
+    }
+
+    public void setShipper(String shipper) {
+        this.shipper = shipper;
+    }
+
+    public int getShippingFee() {
+        return shippingFee;
+    }
+
+    public void setShippingFee(int shippingFee) {
+        this.shippingFee = shippingFee;
+    }
+
+    public String getShippingLocation() {
+        return shippingLocation;
+    }
+
+    public void setShippingLocation(String shippingLocation) {
+        this.shippingLocation = shippingLocation;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

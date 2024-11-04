@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Prm_Ecommerce</string>
+    <string name="title_activity_map_direction">MapDirectionActivity</string>
 </resources>

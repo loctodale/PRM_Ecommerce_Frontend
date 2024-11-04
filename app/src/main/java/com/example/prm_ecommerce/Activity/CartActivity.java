@@ -97,6 +97,7 @@ public class CartActivity extends AppCompatActivity {
         OrderDetailService = OrderDetailRepository.getService();
 
         managementCart = new ManagementCart(this);
+//        userId = (String) getIntent().getSerializableExtra("userId");
         SharedPreferences sharedPreferences = getSharedPreferences("LogInInfo", MODE_PRIVATE);
         userId = sharedPreferences.getString("UserId", null);
         addSampleProducts();

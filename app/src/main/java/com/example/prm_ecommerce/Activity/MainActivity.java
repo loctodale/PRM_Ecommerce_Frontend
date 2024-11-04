@@ -19,6 +19,7 @@ import com.example.prm_ecommerce.API.Repository.NotificationRepository;
 import com.example.prm_ecommerce.API.Repository.ProductRepository;
 import com.example.prm_ecommerce.Adapter.PopularAdapter;
 import com.example.prm_ecommerce.Helper.RegisterForPushNotificationsAsync;
+import com.example.prm_ecommerce.Model.LoginSession;
 import com.example.prm_ecommerce.R;
 import com.example.prm_ecommerce.databinding.ActivityMainBinding;
 import com.example.prm_ecommerce.domain.NotificationDomain;
@@ -32,8 +33,8 @@ import me.pushy.sdk.Pushy;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import vn.zalopay.sdk.Environment;
-import vn.zalopay.sdk.ZaloPaySDK;
+/*import vn.zalopay.sdk.Environment;
+import vn.zalopay.sdk.ZaloPaySDK;*/
 
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
 
         // ZaloPay SDK Init
-        ZaloPaySDK.init(2553, Environment.SANDBOX);
+/*        ZaloPaySDK.init(2553, Environment.SANDBOX);*/
         Pushy.listen(this);
         FirebaseApp.initializeApp(this);
 
@@ -58,8 +59,9 @@ public class MainActivity extends AppCompatActivity {
         statusBarColor();
         initRecyclerView();
         categoryNavigation();
-        bottomNavigation();
+/*        bottomNavigation();*/
         controlNavigation();
+        loginOrProfileSwitch();
         // Register for Pushy notifications
         new RegisterForPushNotificationsAsync(this).execute();
 
@@ -73,7 +75,34 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
+    // chuyen doi login or profile
+    private void loginOrProfileSwitch(){
+        binding.imageView85.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Lấy giá trị của session token và user name
+                String userId = LoginSession.userId;
+                if (userId != null) {
+                    // Người dùng đã đăng nhập
+                    Intent intent = new Intent(MainActivity.this, UserProfileActitvity.class);
+                    startActivity(intent);
+                } else {
+                    // Người dùng chưa đăng nhập
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
+             /*   SharedPreferences sharedPreferences = getSharedPreferences("user_data", MODE_PRIVATE);
+                String userId = sharedPreferences.getString("user_id", null);
+                if(userId!= null){
+                    Intent intent = new Intent(MainActivity.this , UserProfileActitvity.class);
+                    startActivity(intent);
+                }else{
+                    Intent intent = new Intent(MainActivity.this , LoginActivity.class);
+                    startActivity(intent);
+                }*/
+            }
+        });
+    }
     private void controlNavigation() {
         binding.btnNotification.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void bottomNavigation() {
+    /*private void bottomNavigation() {
         binding.cartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -162,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.startActivity(intent);
             }
         });
-    }
+    }*/
 
     private void statusBarColor() {
         Window window = MainActivity.this.getWindow();

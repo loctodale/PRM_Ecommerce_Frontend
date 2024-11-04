@@ -1,7 +1,6 @@
 package com.example.prm_ecommerce.Activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
@@ -84,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
                 String userId = LoginSession.userId;
                 if (userId != null) {
                     // Người dùng đã đăng nhập
-                    Intent intent = new Intent(MainActivity.this, UserProfileActitvity.class);
+                    Intent intent = new Intent(MainActivity.this, UserProfileActivity.class);
                     startActivity(intent);
                 } else {
                     // Người dùng chưa đăng nhập

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,8 +24,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class UserProfileActitvity extends AppCompatActivity {
-    TextView edEmail,edName,edPhone,edAddress;
+public class UserProfileActivity extends AppCompatActivity {
+     EditText edEmail,edName,edPhone,edAddress;
     private IUserService USerService;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,13 +60,13 @@ public class UserProfileActitvity extends AppCompatActivity {
                     edAddress.setText(response.body().getAddress());
                 } else {
                     // Xử lý khi phản hồi không thành công
-                    Toast.makeText(UserProfileActitvity.this, "Response unsuccessful or empty body" , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UserProfileActivity.this, "Response unsuccessful or empty body" , Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<UserDomain> call, Throwable throwable) {
-                Toast.makeText(UserProfileActitvity.this, "Response UserId unsuccessful or empty body" , Toast.LENGTH_SHORT).show();
+                Toast.makeText(UserProfileActivity.this, "Response UserId unsuccessful or empty body" , Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -94,14 +95,14 @@ public class UserProfileActitvity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<UserDomain> call, Response<UserDomain> response) {
                         if (response.body() != null) {
-                            Toast.makeText(UserProfileActitvity.this, "Save sucess", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(UserProfileActivity.this, "Save sucess", Toast.LENGTH_SHORT).show();
                             getUserById();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<UserDomain> call, Throwable throwable) {
-                        Toast.makeText(UserProfileActitvity.this, "save fail", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UserProfileActivity.this, "save fail", Toast.LENGTH_SHORT).show();
                         Log.w("MyTag", "requestFailed", throwable);
                     }
                 });

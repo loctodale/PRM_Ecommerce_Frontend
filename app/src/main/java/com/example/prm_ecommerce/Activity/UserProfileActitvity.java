@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.prm_ecommerce.API.Interface.ICartService;
 import com.example.prm_ecommerce.API.Interface.IUserService;
 import com.example.prm_ecommerce.API.Repository.UserRepository;
+import com.example.prm_ecommerce.Model.LoginSession;
 import com.example.prm_ecommerce.R;
 import com.example.prm_ecommerce.domain.CartDomain;
 import com.example.prm_ecommerce.domain.UserDomain;
@@ -44,11 +45,12 @@ public class UserProfileActitvity extends AppCompatActivity {
     }
 
     private void getUserById(){
-        SharedPreferences sharedPreferences = getSharedPreferences("user_data", MODE_PRIVATE);
+       /* SharedPreferences sharedPreferences = getSharedPreferences("user_data", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         String userId = sharedPreferences.getString("user_id", null);
-
-        Call<UserDomain> call = USerService.getUserById(userId);
+*/
+        String userid = LoginSession.userId;
+        Call<UserDomain> call = USerService.getUserById(userid);
         call.enqueue(new Callback<UserDomain>(){
 
             @Override

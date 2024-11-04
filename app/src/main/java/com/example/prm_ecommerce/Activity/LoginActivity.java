@@ -41,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         auth = FirebaseAuth.getInstance();
         super.onCreate(savedInstanceState);
+        userService = UserRepository.getUserService();
         setContentView(R.layout.activity_login);
         txtAccount = findViewById(R.id.edt_email_si);
         txtPassword = findViewById(R.id.edt_pass_si);
@@ -111,39 +112,34 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void LoginFireBase(String googleId, LoginCallback callback) {
-        userService = UserRepository.getUserService();
-        LoginRequest loginRequest = new LoginRequest(googleId);
-        Call<ResponseFirebaseDomain> call = userService.loginFirebase(loginRequest);
+
+//        LoginRequest loginRequest = new LoginRequest(googleId);
+        Call<ResponseFirebaseDomain> call = userService.loginFirebase(googleId);
 
         call.enqueue(new Callback<ResponseFirebaseDomain>() {
             @Override
             public void onResponse(Call<ResponseFirebaseDomain> call, Response<ResponseFirebaseDomain> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    String userId = response.body().getUserId();
-                    Log.d("LoginActivity", "LoginFirebase user_id: " + userId);
+                String userId = response.body().getUserId();
+                Log.d("LoginActivity", "LoginFirebase user_id: " + userId);
 
-                    LoginSession.userId = userId;
+                LoginSession.userId = userId;
 
-                    // Save to SharedPreferences
-                    SharedPreferences sharedPreferences = getSharedPreferences("user_data", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("user_id", userId);
-                    editor.apply();
+                // Save to SharedPreferences
+                SharedPreferences sharedPreferences = getSharedPreferences("user_data", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("user_id", userId);
+                editor.apply();
 
-                    // Callback success after Retrofit call is successful
-                    callback.onLoginResult(true);
-                } else {
-                    Toast.makeText(LoginActivity.this, "Login unsuccessful or empty body", Toast.LENGTH_SHORT).show();
-                    callback.onLoginResult(false);
-                }
+                // Callback success after Retrofit call is successful
+                callback.onLoginResult(true);
             }
 
             @Override
             public void onFailure(Call<ResponseFirebaseDomain> call, Throwable throwable) {
-                Toast.makeText(LoginActivity.this, "Network Error: " + throwable.getMessage(), Toast.LENGTH_SHORT).show();
                 callback.onLoginResult(false);
             }
         });
+
     }
 
 

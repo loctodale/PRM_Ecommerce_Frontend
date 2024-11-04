@@ -1,5 +1,6 @@
 package com.example.prm_ecommerce.Activity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -28,14 +29,16 @@ public class ChatActivity extends AppCompatActivity {
     private List<ChatMessage> messageList;
     private FirebaseFirestore db;
     private String chatRoomId;
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-
+        SharedPreferences sharedPreferences = getSharedPreferences("user_data", MODE_PRIVATE);
+        userId = sharedPreferences.getString("user_id", null);
         db = FirebaseFirestore.getInstance();
-        chatRoomId = "customer_support";
+        chatRoomId = userId;
 
         recyclerView = findViewById(R.id.recyclerView);
         messageInput = findViewById(R.id.messageInput);

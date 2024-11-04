@@ -1,5 +1,6 @@
 package com.example.prm_ecommerce.Activity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -25,13 +26,14 @@ import retrofit2.Response;
 public class ShipperActivity extends AppCompatActivity {
     ActivityShipperBinding binding;
     IDeliveryService DeliveryService;
-
+    private String userId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityShipperBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        SharedPreferences sharedPreferences = getSharedPreferences("user_data", MODE_PRIVATE);
+        userId = sharedPreferences.getString("user_id", null);
         DeliveryService = DeliveryRepository.getService();
         initRecycleView();
 
@@ -39,7 +41,7 @@ public class ShipperActivity extends AppCompatActivity {
 
     private void initRecycleView() {
         ArrayList<DeliveryModel> listDeli = new ArrayList<>();
-        Call<DeliveryModel[]> call = DeliveryService.getByShipperId("672719d797d0aa83ebf3d0f3");
+        Call<DeliveryModel[]> call = DeliveryService.getByShipperId(userId);
         call.enqueue(new Callback<DeliveryModel[]>() {
             @Override
             public void onResponse(Call<DeliveryModel[]> call, Response<DeliveryModel[]> response) {

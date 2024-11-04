@@ -25,7 +25,7 @@ public interface IUserService {
     Call<UserDomain> createUser(@Body UserDomain user);
 
     @POST("auth/login")
-    Call<UserDomain> loginUser(@Body LoginDomain login);
+    Call<ResponseFirebaseDomain> loginUser(@Body LoginDomain login);
 
     @PUT(USER + "/{id}")
     Call<UserDomain> updateUser(@Path("id")Object id, @Body UserDomain user);

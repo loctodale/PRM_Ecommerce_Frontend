@@ -18,6 +18,7 @@ import com.example.prm_ecommerce.API.Repository.UserRepository;
 import com.example.prm_ecommerce.Model.LoginSession;
 import com.example.prm_ecommerce.Model.UserModel;
 import com.example.prm_ecommerce.R;
+import com.example.prm_ecommerce.domain.LoginDomain;
 import com.example.prm_ecommerce.domain.LoginRequest;
 import com.example.prm_ecommerce.domain.ResponseFirebaseDomain;
 import com.example.prm_ecommerce.domain.UserDomain;
@@ -68,10 +69,44 @@ public class LoginActivity extends AppCompatActivity {
                             finish(); // Đóng LoginActivity
                         } else {
                             // Đăng nhập thất bại, hiển thị thông báo lỗi
+                            loginForShipper();
                             Toast.makeText(LoginActivity.this, "Account or Password is wrong", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
+            }
+        });
+    }
+
+    private void loginForShipper() {
+        Call<ResponseFirebaseDomain> call = userService.loginUser(new LoginDomain(txtAccount.getText().toString(), txtPassword.getText().toString()));
+        call.enqueue(new Callback<ResponseFirebaseDomain>() {
+            @Override
+            public void onResponse(Call<ResponseFirebaseDomain> call, Response<ResponseFirebaseDomain> response) {
+                if (response.isSuccessful() && response.body() != null){
+                    String userId = response.body().getUserId();
+                    Log.d("LoginActivity", "LoginFirebase user_id: " + userId);
+
+                    LoginSession.userId = userId;
+
+                    // Save to SharedPreferences
+                    SharedPreferences sharedPreferences = getSharedPreferences("user_data", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("user_id", userId);
+                    editor.apply();
+
+                    // Callback success after Retrofit call is successful
+                    Intent intent = new Intent(LoginActivity.this, ShipperActivity.class);
+                    LoginActivity.this.startActivity(intent);
+                }else {
+                    Log.d("LoginActivity", "LoginFirebase failed or response body is null");
+                    Toast.makeText(LoginActivity.this, "Login unsuccessful or empty response body", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseFirebaseDomain> call, Throwable throwable) {
+
             }
         });
     }
@@ -112,7 +147,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void LoginFireBase(String googleId, LoginCallback callback) {
-
         LoginRequest loginRequest = new LoginRequest(googleId);
         Call<ResponseFirebaseDomain> call = userService.loginFirebase(loginRequest);
 

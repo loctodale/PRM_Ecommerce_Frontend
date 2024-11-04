@@ -1,6 +1,7 @@
 package com.example.prm_ecommerce.Activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -44,6 +45,7 @@ public class DetailActivity extends AppCompatActivity {
     int numberOrder = 1;
     Boolean isFav = false;
     ProductDomain object;
+    String userId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +53,8 @@ public class DetailActivity extends AppCompatActivity {
         CartService = CartRepository.getCartService();
         UserService = UserRepository.getUserService();
         binding = ActivityDetailBinding.inflate(getLayoutInflater());
+        SharedPreferences sharedPreferences = getSharedPreferences("user_data", MODE_PRIVATE);
+        userId = sharedPreferences.getString("user_id", null);
         setContentView(binding.getRoot());
         _id = (String) getIntent().getSerializableExtra("object");
 
@@ -65,7 +69,7 @@ public class DetailActivity extends AppCompatActivity {
         binding.bookmark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RequestUpdateWishList request = new RequestUpdateWishList("6718be16b762285e2490aae2", _id);
+                RequestUpdateWishList request = new RequestUpdateWishList(userId, _id);
                 Call<UserDomain> call = UserService.toggleWishList(request);
                 call.enqueue(new Callback<UserDomain>() {
                     @Override
@@ -111,7 +115,7 @@ public class DetailActivity extends AppCompatActivity {
                         binding.titleTxt.setText(object.getName());
                         binding.priceTxt.setText(format.format(object.getPrice()));
                         binding.descriptionTxt.setText(object.getDescription());
-                        Call<UserDomain> callUser = UserService.getUserById("6718be16b762285e2490aae2");
+                        Call<UserDomain> callUser = UserService.getUserById(userId);
                         callUser.enqueue(new Callback<UserDomain>() {
                             @Override
                             public void onResponse(Call<UserDomain> call, Response<UserDomain> response) {
@@ -136,7 +140,6 @@ public class DetailActivity extends AppCompatActivity {
                         binding.addToCartBtn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                String userId = "6718be16b762285e2490aae2";
 
                                 RequestAddProductToCartModel request = new RequestAddProductToCartModel(userId, _id, 1);
 

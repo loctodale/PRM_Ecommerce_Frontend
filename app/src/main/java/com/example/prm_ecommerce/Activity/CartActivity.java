@@ -29,6 +29,7 @@ import com.example.prm_ecommerce.Adapter.CartAdapter;
 import com.example.prm_ecommerce.Helper.ChangeNumberItemsListener;
 import com.example.prm_ecommerce.Helper.ManagementCart;
 import com.example.prm_ecommerce.Model.ItemInCartModel;
+import com.example.prm_ecommerce.Model.RequestCreateOrderStackModel;
 import com.example.prm_ecommerce.R;
 import com.example.prm_ecommerce.databinding.ActivityCartBinding;
 import com.example.prm_ecommerce.domain.CartDomain;
@@ -67,6 +68,7 @@ public class CartActivity extends AppCompatActivity {
     private IOrderService OrderService;
     private IOrderDetailService OrderDetailService;
     private IDeliveryService DeliveryService;
+    private String cartId;
 
     ImageView ivAddAddress;
     Button btnOrder;
@@ -94,9 +96,8 @@ public class CartActivity extends AppCompatActivity {
 
         managementCart = new ManagementCart(this);
 
-//        SharedPreferences sharedPreferences = getSharedPreferences("LogInInfo", MODE_PRIVATE);
-//        userId = sharedPreferences.getString("UserId", null);
-        userId = "6718be16b762285e2490aae2";
+        SharedPreferences sharedPreferences = getSharedPreferences("LogInInfo", MODE_PRIVATE);
+        userId = sharedPreferences.getString("UserId", null);
         addSampleProducts();
         binding = ActivityCartBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -135,10 +136,12 @@ public class CartActivity extends AppCompatActivity {
                             @Override
                             public void onPaymentSucceeded(String s, String s1, String s2) {
 //                                deleteCartByUserId();
-                                getProductList();
+//                                getProductList();
 //                                createOrder();
 //                                createOrderDetail();
 //                                createDelivery();
+                                createOrder();
+
                                 Intent intent1 = new Intent(CartActivity.this, PaymentNotification.class);
                                 intent1.putExtra("result", "Thanh toan thanh cong");
                                 startActivity(intent1);
@@ -326,37 +329,65 @@ public class CartActivity extends AppCompatActivity {
     }
 
     private void createOrder(){
-        Date currentDate = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
-
-         OrderDomain order = new OrderDomain(
-                null,      // cart
-                currentDate,           // date
-                false,                // isDeleted
-                Integer.valueOf(binding.tvSubtotal.getText().toString()),             // priceBeforeShip
-                productDomainList,          // products
-                "pending",            // status
-                Integer.valueOf(binding.tvTotal.getText().toString()),             // totalPrice
-                userId,     // user
-                null        // voucher
+        LAT = "106.8073081";
+        LONG = "106.8073081";
+        address = "12 Quoc Huong";
+        RequestCreateOrderStackModel model = new RequestCreateOrderStackModel(
+                userId,
+                null,
+                Float.parseFloat(binding.tvSubtotal.getText().toString()),
+                Float.parseFloat(binding.tvTotal.getText().toString()),
+                "pending",
+                cartId,
+                address,
+                LAT,
+                LONG
         );
 
-        Call<OrderDomain> call = OrderService.create(order);
-        call.enqueue(new Callback<OrderDomain>() {
+        Call<String> call = OrderService.createOrderStack(model);
+        call.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<OrderDomain> call, Response<OrderDomain> response) {
-                OrderDomain orderDomain = response.body();
-                if(orderDomain!=null){
-                    createOrderDetail(orderDomain);
-                    createDelivery(orderDomain);
-                }
-                Toast.makeText(CartActivity.this, "Create order success", Toast.LENGTH_SHORT).show();
+            public void onResponse(Call<String> call, Response<String> response) {
+
             }
 
             @Override
-            public void onFailure(Call<OrderDomain> call, Throwable throwable) {
+            public void onFailure(Call<String> call, Throwable throwable) {
 
             }
         });
+//        Date currentDate = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
+//
+//        final OrderDomain[] order = {new OrderDomain(
+//                null,      // cart
+//                currentDate,           // date
+//                false,                // isDeleted
+//                Integer.valueOf(binding.tvSubtotal.getText().toString()),             // priceBeforeShip
+//                productDomainList,          // products
+//                "pending",            // status
+//                Integer.valueOf(binding.tvTotal.getText().toString()),             // totalPrice
+//                userId,     // user
+//                null        // voucher
+//        )};
+//
+//        Call<OrderDomain> call = OrderService.create(order[0]);
+//        call.enqueue(new Callback<OrderDomain>() {
+//            @Override
+//            public void onResponse(Call<OrderDomain> call, Response<OrderDomain> response) {
+//                OrderDomain orderDomain = response.body();
+//                if(orderDomain!=null){
+//                    createOrderDetail(orderDomain);
+//                    createDelivery(orderDomain);
+//                }
+//
+//                Toast.makeText(CartActivity.this, "Create order success", Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<OrderDomain> call, Throwable throwable) {
+//
+//            }
+//        });
     }
 
     private void createOrderDetail(OrderDomain orderDomain){

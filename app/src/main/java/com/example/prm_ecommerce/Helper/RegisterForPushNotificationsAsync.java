@@ -1,5 +1,6 @@
 package com.example.prm_ecommerce.Helper;
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
@@ -23,7 +24,9 @@ public class RegisterForPushNotificationsAsync extends AsyncTask<Void, Void, Obj
             // Registration succeeded, log token to logcat
             Log.d("Pushy", "Pushy device token: " + deviceToken);
             // Send the token to your backend server via an HTTP GET request
-            URL url = new URL("http://10.0.2.2:8765/notification/register?userId=6718be16b762285e2490aae2&deviceToken=" + deviceToken);
+            SharedPreferences sharedPreferences = mActivity.getSharedPreferences("user_data", mActivity.MODE_PRIVATE);
+            String userId = sharedPreferences.getString("user_id", null);
+            URL url = new URL("http://10.0.2.2:8765/notification/register?userId="+userId+"&deviceToken=" + deviceToken);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.connect();

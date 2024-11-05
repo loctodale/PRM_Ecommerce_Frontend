@@ -45,6 +45,7 @@ dependencies {
 
     implementation libs.firebase.auth
     implementation fileTree(dir: 'C:\\Users\\LENOVO\\Desktop\\ZaloPayLib', include: ['*.aar', '*.jar'], exclude: [])
+    implementation fileTree(dir: 'D:\\github.com\\ZaloPayLib', include: ['*.aar', '*.jar'], exclude: [])
 //    implementation fileTree(dir: 'D:\\github.com\\ZaloPayLib', include: ['*.aar', '*.jar'], exclude: [])
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit

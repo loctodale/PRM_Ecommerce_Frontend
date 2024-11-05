@@ -94,8 +94,9 @@ public class CartActivity extends AppCompatActivity {
 
         managementCart = new ManagementCart(this);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("LogInInfo", MODE_PRIVATE);
-        userId = sharedPreferences.getString("UserId", null);
+//        SharedPreferences sharedPreferences = getSharedPreferences("LogInInfo", MODE_PRIVATE);
+//        userId = sharedPreferences.getString("UserId", null);
+        userId = "6718be16b762285e2490aae2";
         addSampleProducts();
         binding = ActivityCartBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -327,7 +328,7 @@ public class CartActivity extends AppCompatActivity {
     private void createOrder(){
         Date currentDate = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-        final OrderDomain[] order = {new OrderDomain(
+         OrderDomain order = new OrderDomain(
                 null,      // cart
                 currentDate,           // date
                 false,                // isDeleted
@@ -337,9 +338,9 @@ public class CartActivity extends AppCompatActivity {
                 Integer.valueOf(binding.tvTotal.getText().toString()),             // totalPrice
                 userId,     // user
                 null        // voucher
-        )};
+        );
 
-        Call<OrderDomain> call = OrderService.create(order[0]);
+        Call<OrderDomain> call = OrderService.create(order);
         call.enqueue(new Callback<OrderDomain>() {
             @Override
             public void onResponse(Call<OrderDomain> call, Response<OrderDomain> response) {
@@ -348,7 +349,6 @@ public class CartActivity extends AppCompatActivity {
                     createOrderDetail(orderDomain);
                     createDelivery(orderDomain);
                 }
-
                 Toast.makeText(CartActivity.this, "Create order success", Toast.LENGTH_SHORT).show();
             }
 

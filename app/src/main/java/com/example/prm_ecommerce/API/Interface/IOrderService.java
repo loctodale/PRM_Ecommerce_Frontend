@@ -1,5 +1,6 @@
 package com.example.prm_ecommerce.API.Interface;
 
+import com.example.prm_ecommerce.Model.RequestCreateOrderStackModel;
 import com.example.prm_ecommerce.domain.OrderDetailDomain;
 import com.example.prm_ecommerce.domain.OrderDomain;
 
@@ -25,6 +26,8 @@ public interface IOrderService {
 
     @POST(ORDERS)
     Call<OrderDomain> create(@Body OrderDomain order);
+    @POST(ORDERS + "/createOrderStack")
+    Call<String> createOrderStack(@Body RequestCreateOrderStackModel order);
 
     @PUT(ORDERS + "/{id}")
     Call<OrderDomain> update(@Path("id")Object id, @Body OrderDomain order);

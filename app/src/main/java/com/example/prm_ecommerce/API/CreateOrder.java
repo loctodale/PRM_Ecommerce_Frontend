@@ -1,5 +1,6 @@
 package com.example.prm_ecommerce.API;
 
+import com.example.prm_ecommerce.API.HttpProvider;
 import com.example.prm_ecommerce.Constant.AppInfo;
 import com.example.prm_ecommerce.Helper.Helpers;
 
@@ -47,7 +48,7 @@ public class CreateOrder {
         }
     }
 
-     public JSONObject createOrder(String amount) throws Exception {
+    public JSONObject createOrder(String amount) throws Exception {
         CreateOrderData input = new CreateOrderData(amount);
 
         RequestBody formBody = new FormBody.Builder()

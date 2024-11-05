@@ -1,10 +1,13 @@
 package com.example.prm_ecommerce.Activity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 
 import android.os.Bundle;
 import android.util.Log;
 
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +29,7 @@ import retrofit2.Response;
 
 public class UserProfileActivity extends AppCompatActivity {
      EditText edEmail,edName,edPhone,edAddress;
+    Button thoat;
     private IUserService USerService;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,6 +41,15 @@ public class UserProfileActivity extends AppCompatActivity {
         edPhone = findViewById(R.id.textView_show_mobile);
         edEmail = findViewById(R.id.textView_show_email);
         edAddress = findViewById(R.id.textView_address);
+        thoat = findViewById(R.id.textView_show_register_date);
+        thoat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(UserProfileActivity.this , MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
         getUserById();
 
     }

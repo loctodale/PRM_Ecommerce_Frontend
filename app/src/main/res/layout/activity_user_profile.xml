@@ -270,10 +270,10 @@
                 android:id="@+id/textView_show_register_date"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:background="#D32F2F"
                 android:hint="Thoat"
                 android:textAlignment="center"
-                android:textSize="20dp"
-                android:background="#D32F2F"/>
+                android:textSize="20dp" />
 
             <Button
                 android:id="@+id/cancel_button"

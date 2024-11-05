@@ -1,6 +1,7 @@
 package com.example.prm_ecommerce.Activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
@@ -32,8 +33,8 @@ import me.pushy.sdk.Pushy;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import vn.zalopay.sdk.Environment;
-import vn.zalopay.sdk.ZaloPaySDK;
+/*import vn.zalopay.sdk.Environment;
+import vn.zalopay.sdk.ZaloPaySDK;*/
 
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
 
         // ZaloPay SDK Init
-        ZaloPaySDK.init(2553, Environment.SANDBOX);
+      /*  ZaloPaySDK.init(2553, Environment.SANDBOX);*/
         Pushy.listen(this);
 //        FirebaseApp.initializeApp(this);
 
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         categoryNavigation();
         bottomNavigation();
         controlNavigation();
-//        loginOrProfileSwitch();
+        loginOrProfileSwitch();
         // Register for Pushy notifications
         new RegisterForPushNotificationsAsync(this).execute();
 

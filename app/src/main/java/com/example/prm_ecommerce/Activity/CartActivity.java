@@ -54,10 +54,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.HttpException;
 import retrofit2.Response;
-import vn.zalopay.sdk.Environment;
+/*import vn.zalopay.sdk.Environment;
 import vn.zalopay.sdk.ZaloPayError;
 import vn.zalopay.sdk.ZaloPaySDK;
-import vn.zalopay.sdk.listeners.PayOrderListener;
+import vn.zalopay.sdk.listeners.PayOrderListener;*/
 
 public class CartActivity extends AppCompatActivity {
     private ManagementCart managementCart;
@@ -86,8 +86,8 @@ public class CartActivity extends AppCompatActivity {
     OrderDetailDomain orderDetailDomain;
     List<ProductDomain> productDomainList = new ArrayList<>();
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+   /* @Override*/
+/*    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         CartService = CartRepository.getCartService();
         ProductService = ProductRepository.getProductService();
@@ -170,7 +170,7 @@ public class CartActivity extends AppCompatActivity {
                 }
             }
         });
-    }
+    }*/
 
     private void setAddressAndDeliveryFee(){
         String getAddress = getIntent().getStringExtra("ADDRESS");
@@ -435,12 +435,12 @@ public class CartActivity extends AppCompatActivity {
         });
     }
 
-    @Override
+/*    @Override
     protected void onNewIntent(@NonNull Intent intent) {
         super.onNewIntent(intent);
         ZaloPaySDK.getInstance().onResult(intent);
 
         setIntent(intent); // Cập nhật Intent mới
         setAddressAndDeliveryFee();
-    }
+    }*/
 }
